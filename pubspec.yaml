@@ -1,14 +1,12 @@
-name: package_name
-description: A sample dart package from the template.
+name: token_parser
+description: An intuitive Token Parser that includes syntax/grammar definition, tokenization and parsing.
 version: 0.0.1
-repository: https://github.com/DrafaKiller/PackageName-dart
+repository: https://github.com/DrafaKiller/TokenParser-dart
 
 publish_to: none
 
 environment:
   sdk: '>=2.17.6 <3.0.0'
-
-dependencies:
 
 dev_dependencies:
   lints: ^2.0.0
