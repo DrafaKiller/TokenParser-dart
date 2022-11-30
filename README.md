@@ -45,7 +45,7 @@ import 'package:token_parser/token_parser.dart';
     
     final number = digit.multiple & ('.' & digit.multiple).optional;
     final string = '"' & '[^"]*'.regex & '"'
-                | "'" & "[^']*".regex & "'";
+                 | "'" & "[^']*".regex & "'";
 
     final variableDeclaration =
       'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
@@ -80,6 +80,39 @@ import 'package:token_parser/token_parser.dart';
 
     print('Numbers: $numbers');
     print('Identifiers: $identifiers');
+  }
+  ```
+</details>
+
+<details>
+  <summary>
+    Referencing
+    <a href="https://github.com/DrafaKiller/TokenParser-dart/blob/dev/example/reference.dart">
+      <code>(example/reference.dart)</code>
+    </a>
+  </summary>
+    
+  ```dart
+  import 'package:token_parser/token_parser.dart';
+
+  void main() {
+    final expression = 'a' & Token.reference('characterB').optional;
+    final characterB = 'b'.token();
+
+    final recursive = 'a' & Token.self().optional;
+
+    final parser = Parser(
+      main: expression,
+      tokens: {
+        'expression': expression,
+        'characterB': characterB,
+        
+        'recursive': recursive,
+      }
+    );
+
+    print(parser.parse('ab')?.get(characterB));
+    print(parser.parse('aaa', recursive)?.get(recursive));
   }
   ```
 </details>

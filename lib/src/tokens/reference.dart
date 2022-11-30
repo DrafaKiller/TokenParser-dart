@@ -21,7 +21,7 @@ class ReferenceToken extends Token {
   void bind(Parser parser) => this.parser = parser;
 
   @override
-  String toString() => name!;
+  String toString() => '[#$referenceName]';
 
   static Match? matchOnce(Token token, Pattern pattern, String string, [ int start = 0 ]) {
     if (pattern is ReferenceToken && pattern.referenceToken == token) return null;

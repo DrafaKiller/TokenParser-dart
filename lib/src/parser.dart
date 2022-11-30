@@ -8,19 +8,19 @@ import 'package:token_parser/utils/iterable.dart';
 
 class Parser {
   final Set<Token> tokens = {};
-  Parser({ Map<String, Token>? tokens, Token? main }) {
+  Parser({ Map<String, Pattern>? tokens, Token? main }) {
     if (tokens != null) addAll(tokens);
     if (main != null) mainExpression = main;
   }
 
-  Token add(String name, Token token) {
+  Token add(String name, Pattern token) {
     final resolved = token.token(name);
     addToken(resolved);
     return resolved;
   }
 
-  Set<Token> addAll(Map<String, Token> tokens) {
-    return tokens.entries.map((entry) => add(entry.key, entry.value)).toSet();
+  Set<Token> addAll(Map<String, Pattern> tokens) {
+    return tokens.entries.map((entry) => add(entry.key, entry.value.token())).toSet();
   }
 
   void addToken(Token token) {
@@ -44,5 +44,8 @@ class Parser {
   }
   void addMain(Token token) => addTokens([ token, MainToken(token) ]);
 
-  TokenMatch? parse(String input) => mainExpression?.match(input);
+  TokenMatch? parse(String input, [ Token? main ]) {
+    main ??= mainExpression;
+    return main?.match(input);
+  }
 }

@@ -56,6 +56,10 @@ class TokenMatch<TokenT extends Token> extends Match {
     if (match is ParentMatch) ... (match as ParentMatch).children
     else match,
   };
+
+  /* -= Overridden Methods =- */
+
+  @override String toString() => 'TokenMatch("$token")';
 }
 
 class ParentMatch<PatternT extends Pattern> extends Match {
