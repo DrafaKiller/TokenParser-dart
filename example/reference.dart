@@ -6,7 +6,7 @@ void main() {
 
   final recursive = 'a' & Token.self().optional;
 
-  final parser = Parser(
+  final parser = TokenParser(
     main: expression,
     tokens: {
       'expression': expression,

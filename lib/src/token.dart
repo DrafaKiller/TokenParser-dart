@@ -1,3 +1,4 @@
+import 'package:token_parser/src/parser.dart';
 import 'package:token_parser/tokens.dart';
 import 'package:token_parser/src/match.dart';
 
@@ -49,9 +50,9 @@ abstract class Token extends Pattern {
   factory Token.start() = StartToken;
   factory Token.end() = EndToken;
 
-  factory Token.reference(String name) = ReferenceToken;
-  factory Token.ref(String name) = ReferenceToken;
-  factory Token.self() = SelfToken;
+  factory Token.reference(String name, { TokenParser parser }) = ReferenceToken;
+  factory Token.ref(String name, { TokenParser parser }) = ReferenceToken;
+  factory Token.self({ TokenParser parser }) = SelfToken;
   
   /* -= Alternative Tokens - Methods =- */
 

@@ -17,7 +17,7 @@ void main() {
   final variableDeclaration =
     'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
 
-  final parser = Parser(
+  final parser = TokenParser(
     main: (variableDeclaration | space).multiple,
     tokens: {
       'whitespace': whitespace,

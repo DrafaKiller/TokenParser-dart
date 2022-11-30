@@ -3,7 +3,7 @@ import 'package:token_parser/src/match.dart';
 import 'package:token_parser/src/parser.dart';
 
 class ReferenceToken extends Token {
-  Parser? parser;
+  TokenParser? parser;
   ReferenceToken(String name, { this.parser }) : super(name: '[$name]');
 
   String get referenceName => name!.substring(1, name!.length - 1);
@@ -18,7 +18,7 @@ class ReferenceToken extends Token {
     return referenceToken.matchAsPrefix(string, start);
   }
 
-  void bind(Parser parser) => this.parser = parser;
+  void bind(TokenParser parser) => this.parser = parser;
 
   @override
   String toString() => '[#$referenceName]';

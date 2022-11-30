@@ -6,12 +6,29 @@ import 'package:token_parser/src/tokens/reference.dart';
 import 'package:token_parser/src/tokens/main.dart';
 import 'package:token_parser/utils/iterable.dart';
 
-class Parser {
+class TokenParser {
   final Set<Token> tokens = {};
-  Parser({ Map<String, Pattern>? tokens, Token? main }) {
+  TokenParser({ Map<String, Pattern>? tokens, Token? main }) {
     if (tokens != null) addAll(tokens);
     if (main != null) mainExpression = main;
   }
+
+  TokenMatch? parse(String input, [ Token? main ]) {
+    main ??= mainExpression;
+    return main?.match(input);
+  }
+  
+  void addMain(Token token) => addTokens([ token, MainToken(token) ]);
+
+  Token? get mainExpression => token('(main)');
+
+  set mainExpression(Token? token) {
+    if (token != null) addMain(token);
+  }
+
+  /* Token Management */
+
+  Token? token(String name) => tokens.firstWhereOrNull((token) => token.name == name);
 
   Token add(String name, Pattern token) {
     final resolved = token.token(name);
@@ -35,17 +52,4 @@ class Parser {
     tokens.add(token);
   }
   void addTokens(Iterable<Token> tokens) => tokens.forEach(addToken);
-
-  Token? token(String name) => tokens.firstWhereOrNull((token) => token.name == name);
-
-  Token? get mainExpression => token('(main)');
-  set mainExpression(Token? token) {
-    if (token != null) addMain(token);
-  }
-  void addMain(Token token) => addTokens([ token, MainToken(token) ]);
-
-  TokenMatch? parse(String input, [ Token? main ]) {
-    main ??= mainExpression;
-    return main?.match(input);
-  }
 }
