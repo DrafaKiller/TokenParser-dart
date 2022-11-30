@@ -17,9 +17,9 @@ void main() {
   final variableDeclaration =
     'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
 
-  final parser = TokenParser(
+  final parser = Grammar(
     main: (variableDeclaration | space).multiple,
-    tokens: {
+    lexemes: {
       'whitespace': whitespace,
       'lineBreak': lineBreak,
       'space': space,
@@ -42,8 +42,8 @@ void main() {
     var bar = 123.456;
   ''');
   
-  final numbers = match?.get(number).map((match) => match.group(0));
-  final identifiers = match?.get(identifier).map((match) => '"${ match.group(0) }"');
+  final numbers = match?.get(lexeme: number).map((match) => match.group(0));
+  final identifiers = match?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
 
   print('Numbers: $numbers');
   print('Identifiers: $identifiers');
