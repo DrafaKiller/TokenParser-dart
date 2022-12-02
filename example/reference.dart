@@ -1,14 +1,14 @@
 import 'package:token_parser/token_parser.dart';
 
 void main() {
-  final expression = 'a' & Token.reference('characterB').optional;
-  final characterB = 'b'.token();
+  final expression = 'a' & Lexeme.reference('characterB').optional;
+  final characterB = 'b'.lexeme();
 
-  final recursive = 'a' & Token.self().optional;
+  final recursive = 'a' & Lexeme.self().optional;
 
-  final parser = TokenParser(
+  final parser = Grammar(
     main: expression,
-    tokens: {
+    lexemes: {
       'expression': expression,
       'characterB': characterB,
       
@@ -16,6 +16,6 @@ void main() {
     }
   );
 
-  print(parser.parse('ab')?.get(characterB));
-  print(parser.parse('aaa', recursive)?.get(recursive));
+  print(parser.parse('ab')?.get(lexeme: characterB));
+  print(parser.parse('aaa', recursive)?.get(lexeme: recursive));
 }
