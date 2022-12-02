@@ -6,7 +6,7 @@ void main() {
 
   final recursive = 'a' & Lexeme.self().optional;
 
-  final parser = Grammar(
+  final grammar = Grammar(
     main: expression,
     lexemes: {
       'expression': expression,
@@ -16,6 +16,6 @@ void main() {
     }
   );
 
-  print(parser.parse('ab')?.get(lexeme: characterB));
-  print(parser.parse('aaa', recursive)?.get(lexeme: recursive));
+  print(grammar.parse('ab')?.get(lexeme: characterB));
+  print(grammar.parse('aaa', recursive)?.get(lexeme: recursive));
 }
