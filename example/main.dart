@@ -17,7 +17,7 @@ void main() {
   final variableDeclaration =
     'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
 
-  final parser = Grammar(
+  final grammar = Grammar(
     main: (variableDeclaration | space).multiple,
     lexemes: {
       'whitespace': whitespace,
@@ -36,14 +36,14 @@ void main() {
     },
   );
 
-  final match = parser.parse('''
+  final result = grammar.parse('''
     var hello = "world";
     var foo = 123;
     var bar = 123.456;
   ''');
   
-  final numbers = match?.get(lexeme: number).map((match) => match.group(0));
-  final identifiers = match?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
+  final numbers = result?.get(lexeme: number).map((match) => match.group(0));
+  final identifiers = result?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
 
   print('Numbers: $numbers');
   print('Identifiers: $identifiers');
