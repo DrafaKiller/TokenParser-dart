@@ -10,4 +10,14 @@ abstract class ParentLexeme<PatternT extends Pattern> extends Lexeme {
     children = isSubType<PatternT, Lexeme>()
       ? children.map((child) => PatternLexeme(child) as PatternT).toList()
       : children.cast<PatternT>();
+
+  @override
+  bool operator ==(Object other) =>
+    other is ParentLexeme &&
+    super == other &&
+    children.length == other.children.length &&
+    children.fold(true, (value, child) => value && other.children.contains(child));
+
+  @override
+  int get hashCode => super.hashCode ^ children.hashCode;
 }

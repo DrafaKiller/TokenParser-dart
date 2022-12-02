@@ -49,16 +49,11 @@ abstract class Token implements Match {
 
   List<Token> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
     shallow ??= lexeme == null && name == null;
-    final tokens = <Token>[];
-    for (final child in (shallow ? children : allChildren).whereType<Token>()) {
-      if (
-        child.lexeme is T &&
-        (lexeme == null || child.lexeme == lexeme) &&
-        (name == null || child.name == name)
-      ) {
-        tokens.add(child);
-      }
+    return (shallow ? children : allChildren).whereType<Token>().where((child) {
+      return child.lexeme is T &&
+      (lexeme == null || child.lexeme == lexeme) &&
+      (name == null || child.name == name);
     }
-    return tokens;
+    ).toList();
   }
 }
