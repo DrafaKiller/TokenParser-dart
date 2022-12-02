@@ -1,6 +1,6 @@
-import 'package:token_parser/src/lexical_analysis/token.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/abstracts/parent.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/abstracts/bound.dart';
+import 'package:token_parser/src/token.dart';
+import 'package:token_parser/src/lexemes/abstracts/parent.dart';
+import 'package:token_parser/src/lexemes/abstracts/bound.dart';
 
 class OrLexeme extends ParentLexeme {
   final bool priorityRight;

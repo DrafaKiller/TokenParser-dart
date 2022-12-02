@@ -1,28 +1,28 @@
-import 'package:token_parser/src/lexical_analysis/grammar.dart';
-import 'package:token_parser/src/lexical_analysis/token.dart';
+import 'package:token_parser/src/grammar.dart';
+import 'package:token_parser/src/token.dart';
 
-export 'package:token_parser/src/lexical_analysis/tokens/match.dart';
-export 'package:token_parser/src/lexical_analysis/tokens/parent.dart';
+export 'package:token_parser/src/tokens/match.dart';
+export 'package:token_parser/src/tokens/parent.dart';
 
 /* -= Lexeme Imports =- */
 
-import 'package:token_parser/src/lexical_analysis/lexemes/pattern.dart';
+import 'package:token_parser/src/lexemes/pattern.dart';
 
-import 'package:token_parser/src/lexical_analysis/lexemes/and.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/or.dart';
+import 'package:token_parser/src/lexemes/and.dart';
+import 'package:token_parser/src/lexemes/or.dart';
 
-import 'package:token_parser/src/lexical_analysis/lexemes/not.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/optional.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/multiple.dart';
+import 'package:token_parser/src/lexemes/not.dart';
+import 'package:token_parser/src/lexemes/optional.dart';
+import 'package:token_parser/src/lexemes/multiple.dart';
 
-import 'package:token_parser/src/lexical_analysis/lexemes/full.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/empty.dart';
+import 'package:token_parser/src/lexemes/full.dart';
+import 'package:token_parser/src/lexemes/empty.dart';
 
-import 'package:token_parser/src/lexical_analysis/lexemes/start.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/end.dart';
+import 'package:token_parser/src/lexemes/start.dart';
+import 'package:token_parser/src/lexemes/end.dart';
 
-import 'package:token_parser/src/lexical_analysis/lexemes/reference.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/self.dart';
+import 'package:token_parser/src/lexemes/reference.dart';
+import 'package:token_parser/src/lexemes/self.dart';
 
 /* -=-=-=-=-=-=-=-=-=- */
 

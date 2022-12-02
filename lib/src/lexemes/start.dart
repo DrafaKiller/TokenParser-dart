@@ -1,5 +1,5 @@
-import 'package:token_parser/src/lexical_analysis/lexeme.dart';
-import 'package:token_parser/src/lexical_analysis/token.dart';
+import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/token.dart';
 
 class StartLexeme extends Lexeme {
   @override

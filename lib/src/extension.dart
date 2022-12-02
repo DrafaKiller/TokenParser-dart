@@ -1,4 +1,4 @@
-import 'package:token_parser/src/lexical_analysis/lexeme.dart';
+import 'package:token_parser/src/lexeme.dart';
 
 extension LexicalAnalysisPattern on Pattern {
   Lexeme lexeme([ String? name ]) {

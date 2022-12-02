@@ -1,5 +1,5 @@
-import 'package:token_parser/src/lexical_analysis/lexeme.dart';
-import 'package:token_parser/src/lexical_analysis/token.dart';
+import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/token.dart';
 
 class ReferenceLexeme extends Lexeme {
   ReferenceLexeme(String name, { super.grammar }) : super(name: '($name)');

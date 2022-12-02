@@ -1,9 +1,9 @@
-import 'package:token_parser/src/lexical_analysis/extension.dart';
-import 'package:token_parser/src/lexical_analysis/lexeme.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/abstracts/parent.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/main.dart';
-import 'package:token_parser/src/lexical_analysis/lexemes/reference.dart';
-import 'package:token_parser/src/lexical_analysis/token.dart';
+import 'package:token_parser/src/extension.dart';
+import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/lexemes/abstracts/parent.dart';
+import 'package:token_parser/src/lexemes/main.dart';
+import 'package:token_parser/src/lexemes/reference.dart';
+import 'package:token_parser/src/token.dart';
 import 'package:token_parser/utils/iterable.dart';
 
 class Grammar {
