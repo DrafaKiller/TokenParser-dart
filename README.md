@@ -2,6 +2,9 @@
 
 An intuitive Token Parser that includes syntax/grammar definition, tokenization and parsing.
 
+Implementation based on Lexical Analysis.<br>
+Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/docs/Lexical%20Analysis.png).
+
 ## Features
 
 - Tokenization
@@ -31,8 +34,7 @@ Below will be a brief explanation of each step.
 
 ### Syntax/Grammar Definition
 
-The syntax/grammar definition is done by defining what each token must have, using Lexical Analysis.<br>
-Read more about it on [wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/docs/Lexical%20Analysis.png).
+The syntax/grammar definition is done by defining what each token must have, using Lexical Analysis.
 
 A **lexeme** is a grammar definition that will be used to tokenize the input.
 

@@ -66,29 +66,19 @@ abstract class Lexeme implements Pattern {
 
   List<T> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
     shallow ??= lexeme == null && name == null;
-    final lexemes = <T>[];
-    for (final child in (shallow ? children : allChildren).whereType<T>()) {
-      if (
-        (lexeme == null || child == lexeme) &&
-        (name == null || child.name == name)
-      ) {
-        lexemes.add(child);
-      }
-    }
-    return lexemes;
+    return (shallow ? children : allChildren).whereType<T>().where((child) =>
+      (lexeme == null || child == lexeme) &&
+      (name == null || child.name == name)
+    ).toList();
   }
 
   /* -= Identification =- */
   
   @override
-  bool operator ==(Object other) {
-    if (other is! Lexeme) return false;
-    if (name != null || other.name != null) {
-      return name == other.name;
-    }
-    return hashCode == other.hashCode;
-  }
-  
+  bool operator ==(Object other) =>
+    other is Lexeme &&
+    name == other.name;
+
   @override
   int get hashCode => name.hashCode;
 
