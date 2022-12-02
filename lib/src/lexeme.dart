@@ -64,7 +64,8 @@ abstract class Lexeme implements Pattern {
     ...children.expand((child) => child is Lexeme ? child.allChildren : [])
   ];
 
-  List<T> get<T extends Lexeme>({ T? lexeme, String? name, bool shallow = false }) {
+  List<T> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
+    shallow ??= lexeme == null && name == null;
     final lexemes = <T>[];
     for (final child in (shallow ? children : allChildren).whereType<T>()) {
       if (
