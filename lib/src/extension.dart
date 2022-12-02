@@ -1,4 +1,6 @@
 import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/lexemes/and.dart';
+import 'package:token_parser/src/lexemes/or.dart';
 
 extension LexicalAnalysisPattern on Pattern {
   Lexeme lexeme([ String? name ]) {
@@ -11,9 +13,14 @@ extension LexicalAnalysisPattern on Pattern {
 
   /* -= Lexeme Operations =- */
 
-  Lexeme operator +(Pattern other) => Lexeme.and(this, other);
-  Lexeme operator &(Pattern other) => Lexeme.and(this, other);
-  Lexeme operator |(Pattern other) => Lexeme.or(this, other);
+  Lexeme operator +(Pattern other) => this & other;
+  Lexeme operator &(Pattern other) => this is AndLexeme
+    ? Lexeme.andAll([ ...(this as AndLexeme).children, if (other is AndLexeme) ...other.children else other ])
+    : Lexeme.and(this, other);
+
+  Lexeme operator |(Pattern other) => this is OrLexeme
+    ? Lexeme.orAll([ ...(this as OrLexeme).children, if (other is OrLexeme) ...other.children else other ])
+    : Lexeme.or(this, other);
   
   /* -= Lexeme Modification =- */
 
