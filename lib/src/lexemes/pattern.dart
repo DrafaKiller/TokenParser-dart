@@ -1,10 +1,10 @@
-import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/lexemes/abstracts/parent.dart';
 import 'package:token_parser/src/token.dart';
 
-class PatternLexeme<PatternT extends Pattern> extends Lexeme {
+class PatternLexeme<PatternT extends Pattern> extends ParentLexeme {
   final PatternT pattern;
   
-  PatternLexeme(this.pattern, { super.name, super.grammar });
+  PatternLexeme(this.pattern, { super.name, super.grammar }) : super([ pattern ]);
   
   @override
   Token? tokenize(String string, [int start = 0]) {
@@ -12,9 +12,6 @@ class PatternLexeme<PatternT extends Pattern> extends Lexeme {
     if (match == null) return null;
     return Token.match(this, match);
   }
-
-  @override
-  List<PatternT> get children => [ pattern ];
 
   @override
   String toString() => 
