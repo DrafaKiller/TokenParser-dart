@@ -33,3 +33,7 @@ extension LexicalAnalysisPattern on Pattern {
 
   Lexeme get regex => Lexeme.regex(toString());
 }
+
+final reference = Lexeme.reference;
+final ref = Lexeme.ref;
+final self = Lexeme.self;

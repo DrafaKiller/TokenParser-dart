@@ -71,16 +71,14 @@ Any token
 ### Parsing
 
 ```dart
-final abc = 'a' | 'b' | 'c' | Token.reference('def');
-final def = ('d' | 'e' | 'f') & Token.self();
+final abc = 'a' | 'b' | 'c' | reference('def');
+final def = ('d' | 'e' | 'f') & self().optional;
 ```
 
-
-
 ```dart
-final parser = TokenParser(
+final grammar = Grammar(
   main: phrase | number,
-  token: {
+  lexemes: {
     'digit': digit,
     'number': number,
 
@@ -95,24 +93,24 @@ final parser = TokenParser(
 ```
 
 ```dart
-final parser = TokenParser();
+final grammar = Grammar();
 
-parser.add('digit', digit);
-parser.add( ... );
+grammar.add('digit', digit);
+grammar.add( ... );
 
-parser.addMain(phrase | number);
+grammar.addMain(phrase | number);
 ```
 
 ```dart
-parser.parse('123');
-parser.parse('123.456');
+grammar.parse('123');
+grammar.parse('123.456');
 
-parser.parse('word');
-parser.parse('two words');
+grammar.parse('word');
+grammar.parse('two words');
 ```
 
 ```dart
-final match = parser.parse('two words');
+final match = grammar.parse('two words');
 
 final words = match?.get(word);
 final letters = match?.get(letter);
@@ -131,8 +129,8 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
 <details>
   <summary>
     Tokenization
-    <a href="https://github.com/DrafaKiller/TokenParser-dart/blob/dev/example/main.dart">
-      <code>(example/main.dart)</code>
+    <a href="https://github.com/DrafaKiller/TokenParser-dart/blob/main/example/main.dart">
+      <code>(/example/main.dart)</code>
     </a>
   </summary>
     
@@ -151,14 +149,14 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
     
     final number = digit.multiple & ('.' & digit.multiple).optional;
     final string = '"' & '[^"]*'.regex & '"'
-                 | "'" & "[^']*".regex & "'";
+                | "'" & "[^']*".regex & "'";
 
     final variableDeclaration =
       'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
 
-    final parser = TokenParser(
+    final parser = Grammar(
       main: (variableDeclaration | space).multiple,
-      tokens: {
+      lexemes: {
         'whitespace': whitespace,
         'lineBreak': lineBreak,
         'space': space,
@@ -181,8 +179,8 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
       var bar = 123.456;
     ''');
     
-    final numbers = match?.get(number).map((match) => match.group(0));
-    final identifiers = match?.get(identifier).map((match) => '"${ match.group(0) }"');
+    final numbers = match?.get(lexeme: number).map((match) => match.group(0));
+    final identifiers = match?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
 
     print('Numbers: $numbers');
     print('Identifiers: $identifiers');
@@ -193,8 +191,8 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
 <details>
   <summary>
     Referencing
-    <a href="https://github.com/DrafaKiller/TokenParser-dart/blob/dev/example/reference.dart">
-      <code>(example/reference.dart)</code>
+    <a href="https://github.com/DrafaKiller/TokenParser-dart/blob/main/example/reference.dart">
+      <code>(/example/reference.dart)</code>
     </a>
   </summary>
     
@@ -202,14 +200,14 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
   import 'package:token_parser/token_parser.dart';
 
   void main() {
-    final expression = 'a' & Token.reference('characterB').optional;
-    final characterB = 'b'.token();
+    final expression = 'a' & Lexeme.reference('characterB').optional;
+    final characterB = 'b'.lexeme();
 
-    final recursive = 'a' & Token.self().optional;
+    final recursive = 'a' & Lexeme.self().optional;
 
-    final parser = TokenParser(
+    final parser = Grammar(
       main: expression,
-      tokens: {
+      lexemes: {
         'expression': expression,
         'characterB': characterB,
         
@@ -217,8 +215,8 @@ print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
       }
     );
 
-    print(parser.parse('ab')?.get(characterB));
-    print(parser.parse('aaa', recursive)?.get(recursive));
+    print(parser.parse('ab')?.get(lexeme: characterB));
+    print(parser.parse('aaa', recursive)?.get(lexeme: recursive));
   }
   ```
 </details>
