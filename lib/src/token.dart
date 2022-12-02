@@ -47,7 +47,8 @@ abstract class Token implements Match {
     ...children.expand((child) => child is Token ? child.allChildren : [])
   ];
 
-  List<Token> get<T extends Lexeme>({ T? lexeme, String? name, bool shallow = false }) {
+  List<Token> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
+    shallow ??= lexeme == null && name == null;
     final tokens = <Token>[];
     for (final child in (shallow ? children : allChildren).whereType<Token>()) {
       if (
