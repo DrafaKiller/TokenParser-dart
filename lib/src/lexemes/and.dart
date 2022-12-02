@@ -1,8 +1,9 @@
+import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/lexemes/abstracts/parent.dart';
 import 'package:token_parser/src/lexemes/abstracts/bound.dart';
 
-class AndLexeme extends ParentLexeme {
+class AndLexeme extends ParentLexeme<Lexeme> {
   AndLexeme(super.children, { super.name, super.grammar });
 
   @override

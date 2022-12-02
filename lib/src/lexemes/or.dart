@@ -1,8 +1,9 @@
+import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/lexemes/abstracts/parent.dart';
 import 'package:token_parser/src/lexemes/abstracts/bound.dart';
 
-class OrLexeme extends ParentLexeme {
+class OrLexeme extends ParentLexeme<Lexeme> {
   final bool priorityRight;
   OrLexeme(super.children, { super.name, this.priorityRight = false, super.grammar });
 
