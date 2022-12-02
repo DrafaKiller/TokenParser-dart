@@ -1,4 +1,4 @@
-import 'package:token_parser/src/lexical_analysis/lexeme.dart';
+import 'package:token_parser/src/lexeme.dart';
 
 abstract class ParentLexeme<PatternT extends Pattern> extends Lexeme {
   @override

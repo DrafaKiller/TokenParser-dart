@@ -1,5 +1,5 @@
-import 'package:token_parser/src/lexical_analysis/lexemes/pattern.dart';
-import 'package:token_parser/src/lexical_analysis/token.dart';
+import 'package:token_parser/src/lexemes/pattern.dart';
+import 'package:token_parser/src/token.dart';
 
 class NotLexeme extends PatternLexeme {
   NotLexeme(super.pattern, { super.name, super.grammar });

@@ -1,4 +1,4 @@
-import 'package:token_parser/src/lexical_analysis/lexemes/abstracts/parent.dart';
+import 'package:token_parser/src/lexemes/abstracts/parent.dart';
 
 mixin BoundLexeme<
   LeftPattern extends Pattern,
