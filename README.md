@@ -7,9 +7,10 @@ Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis
 
 ## Features
 
+- Syntax/grammar definition
 - Tokenization
 - Parsing
-- Syntax/grammar definition
+- Referencing and self-reference
 
 ## Getting Started 
 
@@ -113,7 +114,7 @@ final number = digit.multiple & ('.' & digit.multiple).optional;
 
 final letter = '[a-zA-Z]'.regex;
 final word = letter.multiple;
-final phrase = word & ((' ' & word).multiple).optional;
+final phrase = word & (' ' & word).multiple.optional;
 ```
 
 Lexemes can be referenced using the functions `reference(String name)` and `self()`, or `ref(String name)` for short.
@@ -125,9 +126,6 @@ final def = ('d' | 'e' | 'f') & self().optional;
 
 A **reference** expects the lexeme name attributed when adding to a grammar.
 It only has an effect when tokenizing. If the parent and referenced lexeme were not added to the grammar, it will throw an error when tokenizing.
-
-
-
 
 ### Tokenization
 

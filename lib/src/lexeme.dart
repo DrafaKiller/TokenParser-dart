@@ -26,9 +26,23 @@ import 'package:token_parser/src/lexemes/self.dart';
 
 /* -=-=-=-=-=-=-=-=-=- */
 
+/// A **lexeme** is a grammar definition that will be used to tokenize the input.
+/// 
+/// This tokenization will generate a **token** from this specific lexeme,
+/// with the value and position of the input that matched the lexeme.
+/// 
+/// This composition of lexemes is what defines **grammar**.
+/// Lexemes can contain other lexemes to form a more complex grammar.
 abstract class Lexeme implements Pattern {
   String? name;
   
+  /// A **lexeme** is a grammar definition that will be used to tokenize the input.
+  /// 
+  /// This tokenization will generate a **token** from this specific lexeme,
+  /// with the value and position of the input that matched the lexeme.
+  /// 
+  /// This composition of lexemes is what defines **grammar**.
+  /// Lexemes can contain other lexemes to form a more complex grammar.
   Lexeme({ this.name, this.grammar });
 
   @override
@@ -47,12 +61,16 @@ abstract class Lexeme implements Pattern {
 
   /* -= Tokanization =- */
 
+  /// This tokenization will generate a **token** from this specific lexeme,
+  /// with the value and position of the input that matched the lexeme.
   Token? tokenize(String string, [int start = 0]);
 
   /* -= Grammar =- */
 
   Grammar? grammar;
   
+  /// Binding a lexeme to a grammar will set the grammar as the lexeme's parent.
+  /// Allowing the lexeme to access the grammar's lexemes, useful when tokenizing.
   void bind(Grammar grammar) => this.grammar = grammar;
   void unbind() => grammar = null;
 
@@ -64,6 +82,12 @@ abstract class Lexeme implements Pattern {
     ...children.expand((child) => child is Lexeme ? child.allChildren : [])
   ];
 
+  /// ## Analysis
+  /// 
+  /// Find all the lexemes that compose this lexeme.
+  /// 
+  /// The reach of the search can be limited by using the `bool shallow` argument,
+  /// the default is `false` when having a lexeme or name, and `true` when no search parameters are given.
   List<T> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
     shallow ??= lexeme == null && name == null;
     return (shallow ? children : allChildren).whereType<T>().where((child) =>

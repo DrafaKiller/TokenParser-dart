@@ -47,6 +47,23 @@ abstract class Token implements Match {
     ...children.expand((child) => child is Token ? child.allChildren : [])
   ];
 
+  /// ## Analysis
+  /// 
+  /// You may use the parsed token to analyze the resulting tree,
+  /// using the `.get({ Lexeme? lexeme, String? name })` method will get all the tokens that match the lexeme or name.
+  /// 
+  /// The reach of the search can be limited by using the `bool shallow` argument,
+  /// the default is `false` when having a lexeme or name, and `true` when no search parameters are given.
+  /// 
+  /// ```dart
+  /// final match = grammar.parse('two words');
+  /// 
+  /// final words = match?.get(lexeme: word);
+  /// final letters = match?.get(name: 'letter');
+  /// 
+  /// print('Words: ${ words?.map((match) => match.value) }');
+  /// print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
+  /// ```
   List<Token> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
     shallow ??= lexeme == null && name == null;
     return (shallow ? children : allChildren).whereType<Token>().where((child) {
