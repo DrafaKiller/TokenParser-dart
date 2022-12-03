@@ -25,6 +25,45 @@ import 'package:token_parser/token_parser.dart';
 
 ## Usage
 
+The Token Parser is based on a syntax/grammar definition, which is a list of lexemes that define the grammar. Here is a brief example:
+
+```dart
+import 'package:token_parser/token_parser.dart';
+
+final whitespace = ' ' | '\t';
+final lineBreak = '\n' | '\r';
+final space = (whitespace | lineBreak).multiple;
+
+final letter = '[a-zA-Z]'.regex;
+final digit = '[0-9]'.regex;
+
+final number = digit.multiple & '.' & digit.multiple;
+final identifier = letter & (letter | digit).multiple.optional;
+
+final grammar = Grammar(
+  main: identifier & space '=' & space & number,
+  lexemes: {
+    'whitespace': whitespace,
+    'lineBreak': lineBreak,
+    'space': space,
+
+    'letter': letter,
+    'digit': digit,
+
+    'number': number,
+    'identifier': identifier,
+  }
+);
+
+final result = grammar.parse('numberVariable = 1');
+if (result != null) {
+  print(result.get(lexeme: identifier).first.value);
+  print(result.get(lexeme: number).first.value);
+  // Output: numberVariable
+  // Output: 1
+}
+```
+
 The Tokenization process is divided into three steps:
   1) Syntax/Grammar Definition
   2) Tokenization
