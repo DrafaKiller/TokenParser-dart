@@ -1,6 +1,6 @@
 import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/lexemes/pattern.dart';
-import 'package:token_parser/utils/type.dart';
+import 'package:token_parser/src/utils/type.dart';
 
 abstract class ParentLexeme<PatternT extends Pattern> extends Lexeme {
   @override

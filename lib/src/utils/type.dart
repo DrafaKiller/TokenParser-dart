@@ -5,5 +5,5 @@ bool isSuperType<SuperType, SubType>() => <SubType>[] is List<SuperType>;
 bool isSubType<SubType, SuperType>() => isSuperType<SuperType, SubType>();
 
 bool isAssignable<InstanceType, AssignToType>() =>
-  isExactType<InstanceType, AssignToType>() ||
-  isSubType<InstanceType, AssignToType>();
+    isExactType<InstanceType, AssignToType>() ||
+    isSubType<InstanceType, AssignToType>();

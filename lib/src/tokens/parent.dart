@@ -1,6 +1,6 @@
 import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
-import 'package:token_parser/utils/iterable.dart';
+import 'package:token_parser/src/utils/iterable.dart';
 
 class TokenParent extends Token {
   @override final List<Match> children;

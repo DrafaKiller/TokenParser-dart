@@ -1,20 +1,25 @@
+<!--
+[![Pub.dev package](https://img.shields.io/badge/pub.dev-token__parser-blue)](https://pub.dev/packages/token_parser)
+[![GitHub repository](https://img.shields.io/badge/GitHub-TokenParser--dart-blue?logo=github)](https://github.com/DrafaKiller/TokenParser-dart)
+-->
+
 # Token Parser
 
 An intuitive Token Parser that includes syntax/grammar definition, tokenization and parsing.
 
 Implementation based on Lexical Analysis.<br>
-Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/doc/Lexical%20Analysis.png).
+Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [Basic Diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/doc/Lexical%20Analysis.png).
 
 ## Features
 
 - Syntax/grammar definition
 - Tokenization
 - Parsing
-- Referencing and self-reference
+- Referencing, and self-referencing
 
 ## In progress
 
-- [ ] Reorganize documentation
+- [x] Reorganize documentation
 - [ ] Implement EBNF grammar
 - [ ] Parse grammar from a file
 
@@ -32,7 +37,7 @@ import 'package:token_parser/token_parser.dart';
 
 ## Usage
 
-The Token Parser is based on a syntax/grammar definition, which is a list of lexemes that define the grammar. Here is a brief example:
+This package is based on a syntax/grammar definition, which is a list of lexemes that define the grammar. Here is a brief example:
 
 ```dart
 final whitespace = ' ' | '\t';
@@ -60,33 +65,26 @@ final grammar = Grammar(
   }
 );
 
-final result = grammar.parse('numberVariable = 12.3');
+final result = grammar.parse('myNumber = 12.3');
 print(result);
 if (result != null) {
   print('Identifier: ${ result.get(lexeme: identifier).first.value }');
   print('Number: ${ result.get(lexeme: number).first.value }');
   // [Output]
-  // Identifier: numberVariable
+  // Identifier: myNumber
   // Number: 12.3
 }
 ```
 
-The Tokenization process is divided into three steps:
-  1) Syntax/Grammar Definition
-  2) Tokenization
-  3) Parsing
+## Lexeme
 
-Below will be a brief explanation of each step.
-
-### Syntax/Grammar Definition
+A **lexeme** is a grammar definition that will be used to tokenize an input.
+It's a pattern that must be matched, essentially a grammar rule.
 
 The syntax/grammar definition is done by defining what each token must have, using Lexical Analysis.
 
-A **lexeme** is a grammar definition that will be used to tokenize the input.
-
-This tokenization will generate a **token** from this specific lexeme, with the value and position of the input that matched the lexeme.
-
-This composition of lexemes is what defines **grammar**. Lexemes can contain other lexemes to form a more complex grammar.
+This composition of lexemes is what will define the grammar.
+Lexemes can contain other lexemes to form a more complex lexical grammar.
 
 ```dart
 final abc = 'a' | 'b' | 'c';
@@ -123,6 +121,12 @@ final word = letter.multiple;
 final phrase = word & (' ' & word).multiple.optional;
 ```
 
+### Reference, and self-reference
+
+Reference lexemes are placeholders,
+that when requested to tokenize an input will find the lexeme in the grammar bound to it,
+associated with a name.
+
 Lexemes can be referenced using the functions `reference(String name)` and `self()`, or `ref(String name)` for short.
 
 ```dart
@@ -130,15 +134,17 @@ final abc = 'a' | 'b' | 'c' | reference('def');
 final def = ('d' | 'e' | 'f') & self().optional;
 ```
 
-A **reference** expects the lexeme name attributed when adding to a grammar.
-It only has an effect when tokenizing. If the parent and referenced lexeme were not added to the grammar, it will throw an error when tokenizing.
+For a reference to have an effect, it must be bound to the grammar,
+and the referenced lexeme must be present in the same grammar.
+If referenced lexeme is not present, it will throw an error when tokenizing.
 
-### Tokenization
+## Grammar
 
-Lexemes can tokenize an input by themselves, generating the corresponding token.
+A grammar is a list of lexemes that will be used to parse an input,
+essentially a list of rules that define the language.
 
-For more consistent tokenization, it is recommended to group the lexemes in a **grammar**.
-That way allowing the use of **references and main lexeme**. Adding any lexeme to a grammar will effectively bind them together, along with a name, resolving any **self-references**.
+A grammar has an entry point, called the **main** lexeme.
+This lexeme is used to parse the input and will be the only one returned.
 
 Grammar can be defined in two ways, using the constructor:
 
@@ -170,11 +176,19 @@ grammar.add('digit', digit);
 grammar.add( ... );
 ```
 
-### Parsing
+Lexemes can tokenize an input by themselves,
+but it's often more consistent to group the lexemes in a grammar.
 
-The grammar is used for parsing any input, which will tokenize it, taking into account all the lexemes defined previously.
+That way allowing the use of **references and main lexeme**.
+Adding any lexeme to a grammar will effectively bind them together,
+along with a name, and resolves any **self-references**.
 
-Parse an input using `.parse(String input)` method.
+### Parsing an input
+
+The grammar is used for parsing any input, which will tokenize it,
+taking into account all the lexemes previously added.
+
+Parse an input using `.parse(String input, { Lexeme? main })` method.
 
 ```dart
 final grammar = Grammar(...);
@@ -186,15 +200,41 @@ grammar.parse('word');
 grammar.parse('two words');
 ```
 
-A grammar has an entry point, called the **main** lexeme. This lexeme is used to parse the input and will be the only one returned.
+You can override the main lexeme used for parsing the input,
+by passing it as a parameter.
 
-When parsing an input, it will return a parsed token, which can be used to get the value and position of the input that matched. It can also be used to get the children tokens.
+When parsing an input, it will return a resulting token,
+which can be used to get the value and position of the lexemes that matched.
+It can also be used to get the children tokens.
 
-## Analysis
+## Token
 
-You may use the parsed token to analyze the resulting tree, using the `.get({ Lexeme? lexeme, String? name })` method will get all the tokens that match the lexeme or name.
+A token is a result of matching a lexeme to an input.
+It contains the value of the lexeme that matched and the position of the token.
 
-The reach of the search can be limited by using the `bool shallow` argument, the default is `false` when having a lexeme or name, and `true` when no search parameters are given.
+The process of generating this token is called **tokenization**.
+
+```dart
+final grammar = Grammar(...);
+final token = grammar.parse('123');
+
+if (token != null) {
+  print('''
+    Value: ${ token.value }
+    Lexeme: ${ token.lexeme.name }
+
+    Start: ${ token.start }
+    End: ${ token.end }
+    Length: ${ token.length }
+  ''');
+}
+```
+
+### Analysing the Token Tree
+
+You may use this token to analyze the resulting tree. Using the `.get({ Lexeme? lexeme, String? name })` method will get all the tokens that match the lexeme or name.
+
+The reach of the search can be limited by using the `bool shallow` parameter, the default is `false` when having a lexeme or name, and `true` when no search parameters are given.
 
 ```dart
 final result = grammar.parse('two words');
@@ -205,6 +245,10 @@ final letters = result?.get(name: 'letter');
 print('Words: ${ words?.map((token) => token.value) }');
 print('Letters: ${ letters?.get(letter).map((token) => token.value) }');
 ```
+
+You may also use the `.children` and `.allChildren` for a more direct approach.
+Although the children are not guaranteed to be tokens,
+they may also be basic matching values, such as of Match type.
 
 ## Example
 

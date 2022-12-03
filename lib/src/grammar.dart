@@ -4,7 +4,7 @@ import 'package:token_parser/src/lexemes/abstracts/parent.dart';
 import 'package:token_parser/src/lexemes/main.dart';
 import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/token.dart';
-import 'package:token_parser/utils/iterable.dart';
+import 'package:token_parser/src/utils/iterable.dart';
 
 class Grammar {
   final Set<Lexeme> lexemes = {};

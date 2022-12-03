@@ -77,6 +77,9 @@ abstract class Token implements Match {
   /// The value of the token matched by the lexeme.
   String get value => input.substring(start, end);
 
+  /// The length of the token matched by the lexeme.
+  int get length => end - start;
+
   @override
   bool operator ==(Object other) =>
     other is Token &&

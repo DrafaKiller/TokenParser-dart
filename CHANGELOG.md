@@ -1,10 +1,11 @@
-## 0.0.1+1
+## 0.0.2
+
+Added:
+- `.length` property to token, which returns the length of value matched
 
 Changed:
-- Improved code documentation
-
-Fixed:
-- Lexical Analysis diagram path in README.md
+- Reorganized the documentation
+- Moved the utils directory inside the source directory
 
 ## 0.0.1
 
