@@ -3,7 +3,7 @@
 An intuitive Token Parser that includes syntax/grammar definition, tokenization and parsing.
 
 Implementation based on Lexical Analysis.<br>
-Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/docs/Lexical%20Analysis.png).
+Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis), or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/doc/Lexical%20Analysis.png).
 
 ## Features
 

@@ -13,7 +13,7 @@ import 'package:token_parser/utils/iterable.dart';
 /// 
 /// Implementation based on Lexical Analysis.<br>
 /// Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis),
-/// or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/docs/Lexical%20Analysis.png).
+/// or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/doc/Lexical%20Analysis.png).
 ///
 /// ### Usage
 ///
@@ -76,7 +76,7 @@ class Grammar {
   /// 
   /// Implementation based on Lexical Analysis.<br>
   /// Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis),
-  /// or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/docs/Lexical%20Analysis.png).
+  /// or with a [basic diagram](https://raw.githubusercontent.com/DrafaKiller/TokenParser-dart/main/doc/Lexical%20Analysis.png).
   ///
   /// ### Usage
   ///
