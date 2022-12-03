@@ -25,26 +25,46 @@ import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/lexemes/self.dart';
 
 /* -=-=-=-=-=-=-=-=-=- */
-
-/// A **lexeme** is a grammar definition that will be used to tokenize the input.
-/// 
-/// This tokenization will generate a **token** from this specific lexeme,
-/// with the value and position of the input that matched the lexeme.
-/// 
-/// This composition of lexemes is what defines **grammar**.
-/// Lexemes can contain other lexemes to form a more complex grammar.
 abstract class Lexeme implements Pattern {
   String? name;
-  
-  /// A **lexeme** is a grammar definition that will be used to tokenize the input.
+
+  /// ## Token Parser - Lexeme
   /// 
-  /// This tokenization will generate a **token** from this specific lexeme,
-  /// with the value and position of the input that matched the lexeme.
+  /// A lexeme is a grammar definition that will be used to tokenize the input.
   /// 
-  /// This composition of lexemes is what defines **grammar**.
-  /// Lexemes can contain other lexemes to form a more complex grammar.
+  /// It's a pattern that must be matched in order to tokenize the input.
+  /// 
+  /// ```dart
+  /// final abc = 'a' | 'b' | 'c';
+  /// final def = 'd' | 'e' | 'f';
+  /// final expression = abc & def;
+  /// ```
+  /// 
+  /// ### Example
+  /// 
+  /// Here's an example of how to compose lexemes:
+  /// 
+  /// ```dart
+  /// final whitespace = ' ' | '\t';
+  /// final lineBreak = '\n' | '\r';
+  /// final space = (whitespace | lineBreak).multiple;
+  /// 
+  /// final letter = '[a-zA-Z]'.regex;
+  /// final digit = '[0-9]'.regex;
+  /// 
+  /// final identifier = letter & (letter | digit).multiple.optional;
+  /// 
+  /// final number = digit.multiple & ('.' & digit.multiple).optional;
+  /// final string = '"' & '[^"]*'.regex & '"'
+  ///              | "'" & "[^']*".regex & "'";
+  /// ```
   Lexeme({ this.name, this.grammar });
 
+  /// Matches the current lexeme against the provided input.
+  /// 
+  /// The lexeme is matched multiple times until the input is exhausted.
+  ///
+  /// **Caution:** Avoid using this method, use `.tokenize` instead.
   @override
   Set<Token> allMatches(String string, [int start = 0]) {
     final tokens = <Token>{};
@@ -56,14 +76,9 @@ abstract class Lexeme implements Pattern {
     return tokens;
   }
 
+  /// **Caution:** Avoid using this method, use `.tokenize` instead.
   @override
   Match? matchAsPrefix(String string, [int start = 0]) => tokenize(string, start);
-
-  /* -= Tokanization =- */
-
-  /// This tokenization will generate a **token** from this specific lexeme,
-  /// with the value and position of the input that matched the lexeme.
-  Token? tokenize(String string, [int start = 0]);
 
   /* -= Grammar =- */
 
@@ -74,6 +89,13 @@ abstract class Lexeme implements Pattern {
   void bind(Grammar grammar) => this.grammar = grammar;
   void unbind() => grammar = null;
 
+  /* -= Tokanization =- */
+
+  /// Generates the resulting token from an input.
+  /// 
+  /// If the input doesn't match the lexeme, it will return `null`.
+  Token? tokenize(String string, [int start = 0]);
+
   /* -= Children Anaylyzing =- */
 
   List<Pattern> get children => [];
@@ -82,9 +104,7 @@ abstract class Lexeme implements Pattern {
     ...children.expand((child) => child is Lexeme ? child.allChildren : [])
   ];
 
-  /// ## Analysis
-  /// 
-  /// Find all the lexemes that compose this lexeme.
+  /// Get all the lexemes that match the lexeme type or name, allows to analyze the lexical tree.
   /// 
   /// The reach of the search can be limited by using the `bool shallow` argument,
   /// the default is `false` when having a lexeme or name, and `true` when no search parameters are given.

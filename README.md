@@ -12,6 +12,12 @@ Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis
 - Parsing
 - Referencing and self-reference
 
+## In progress
+
+- [ ] Reorganize documentation
+- [ ] Implement EBNF grammar
+- [ ] Parse grammar from a file
+
 ## Getting Started 
 
 ```
@@ -29,8 +35,6 @@ import 'package:token_parser/token_parser.dart';
 The Token Parser is based on a syntax/grammar definition, which is a list of lexemes that define the grammar. Here is a brief example:
 
 ```dart
-import 'package:token_parser/token_parser.dart';
-
 final whitespace = ' ' | '\t';
 final lineBreak = '\n' | '\r';
 final space = (whitespace | lineBreak).multiple;
@@ -38,11 +42,11 @@ final space = (whitespace | lineBreak).multiple;
 final letter = '[a-zA-Z]'.regex;
 final digit = '[0-9]'.regex;
 
-final number = digit.multiple & '.' & digit.multiple;
+final number = digit.multiple & ('.' & digit.multiple).optional;
 final identifier = letter & (letter | digit).multiple.optional;
 
 final grammar = Grammar(
-  main: identifier & space '=' & space & number,
+  main: identifier & space & '=' & space & number,
   lexemes: {
     'whitespace': whitespace,
     'lineBreak': lineBreak,
@@ -56,12 +60,14 @@ final grammar = Grammar(
   }
 );
 
-final result = grammar.parse('numberVariable = 1');
+final result = grammar.parse('numberVariable = 12.3');
+print(result);
 if (result != null) {
-  print(result.get(lexeme: identifier).first.value);
-  print(result.get(lexeme: number).first.value);
-  // Output: numberVariable
-  // Output: 1
+  print('Identifier: ${ result.get(lexeme: identifier).first.value }');
+  print('Number: ${ result.get(lexeme: number).first.value }');
+  // [Output]
+  // Identifier: numberVariable
+  // Number: 12.3
 }
 ```
 
@@ -191,13 +197,13 @@ You may use the parsed token to analyze the resulting tree, using the `.get({ Le
 The reach of the search can be limited by using the `bool shallow` argument, the default is `false` when having a lexeme or name, and `true` when no search parameters are given.
 
 ```dart
-final match = grammar.parse('two words');
+final result = grammar.parse('two words');
 
-final words = match?.get(lexeme: word);
-final letters = match?.get(name: 'letter');
+final words = result?.get(lexeme: word);
+final letters = result?.get(name: 'letter');
 
-print('Words: ${ words?.map((match) => match.value) }');
-print('Letters: ${ letters?.get(letter).map((match) => match.value) }');
+print('Words: ${ words?.map((token) => token.value) }');
+print('Letters: ${ letters?.get(letter).map((token) => token.value) }');
 ```
 
 ## Example
