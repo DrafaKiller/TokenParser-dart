@@ -7,7 +7,7 @@ import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/utils/iterable.dart';
 
 class Grammar {
-  final Set<Lexeme> lexemes = {};
+  final Set<Lexeme> definitions = {};
 
   /// ## Token Parser - Grammar
   /// 
@@ -46,8 +46,8 @@ class Grammar {
   /// ```
   /// 
   /// 
-  Grammar({ Map<String, Pattern>? lexemes, Lexeme? main }) {
-    if (lexemes != null) addAll(lexemes);
+  Grammar({ Map<String, Pattern>? definitions, Lexeme? main }) {
+    if (definitions != null) addAll(definitions);
     if (main != null) this.main = main;
   }
 
@@ -75,7 +75,7 @@ class Grammar {
   /* -= Lexeme Management =- */
 
   /// Get a previously binded lexeme by its name, from the grammar.
-  Lexeme? lexeme(String name) => lexemes.firstWhereOrNull((token) => token.name == name);
+  Lexeme? lexeme(String name) => definitions.firstWhereOrNull((token) => token.name == name);
 
   /// Add a lexeme to the grammar.
   /// This will bind the lexeme to the grammar, so it can be referenced.
@@ -104,7 +104,7 @@ class Grammar {
         }
       }
     }
-    lexemes.add(lexeme);
+    definitions.add(lexeme);
   }
 
   /// Add a list of lexemes to the grammar.

@@ -82,3 +82,8 @@ final ref = Lexeme.ref;
 /// 
 /// This reference takes the name of the parent lexeme added to the grammar.
 final self = Lexeme.self;
+
+/* -= Top-level Lexemes =- */
+
+/// Creates a lexeme that always matches, because it's an empty rule.
+final empty = Lexeme.empty;

@@ -8,7 +8,7 @@ void main() {
 
   final grammar = Grammar(
     main: expression,
-    lexemes: {
+    definitions: {
       'expression': expression,
       'characterB': characterB,
       

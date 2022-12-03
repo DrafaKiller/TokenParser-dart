@@ -19,7 +19,7 @@ void main() {
 
   final grammar = Grammar(
     main: (variableDeclaration | space).multiple,
-    lexemes: {
+    definitions: {
       'whitespace': whitespace,
       'lineBreak': lineBreak,
       'space': space,
