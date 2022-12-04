@@ -117,6 +117,8 @@ abstract class Lexeme implements Pattern {
   }
 
   /* -= Identification =- */
+
+  String get displayName => name ?? runtimeType.toString();
   
   @override
   bool operator ==(Object other) =>
