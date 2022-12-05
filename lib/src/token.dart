@@ -5,12 +5,14 @@ import 'package:token_parser/src/tokens/parent.dart';
 
 class Token<LexemeT extends Lexeme> extends Match {
   @override LexemeT pattern;
+  final Set<Token> children;
   
   @override String input;
   @override int start;
   @override int end;
 
-  Token(this.pattern, this.input, this.start, this.end);
+  Token(this.pattern, this.input, this.start, this.end, { Set<Token>? children }) :
+    children = children ?? <Token>{};
   
   factory Token.match(LexemeT pattern, Match match) = TokenMatch;
   factory Token.matches(LexemeT pattern, Set<Token> matches) = TokenParent;
@@ -54,7 +56,6 @@ class Token<LexemeT extends Lexeme> extends Match {
 
   /* -= Analysis =- */
 
-  Set<Token> get children => <Token>{};
   Set<Token> get allChildren => {
     ...children,
     ...children.expand((child) => child.allChildren)

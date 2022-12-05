@@ -1,7 +1,6 @@
 import 'package:token_parser/src/error.dart';
 import 'package:token_parser/src/internal/extension.dart';
 import 'package:token_parser/src/lexeme.dart';
-import 'package:token_parser/src/lexemes/abstract/parent.dart';
 import 'package:token_parser/src/lexemes/main.dart';
 import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/token.dart';
@@ -44,13 +43,11 @@ class Grammar {
 
   void addLexeme(Lexeme lexeme) {
     if (lexeme.name == null) return;
-    if (lexeme is ParentLexeme) {
-      lexeme.bind(this);
-      for (final child in lexeme.allChildren.whereType<Lexeme>()) {
-        child.bind(this);
-        if (child is ReferenceLexeme && child.displayName == '(self)') {
-          child.lexeme = lexeme;
-        }
+    lexeme.bind(this);
+    for (final child in lexeme.allChildren.whereType<Lexeme>()) {
+      child.bind(this);
+      if (child is ReferenceLexeme && child.lexemeName == '(self)') {
+        child.lexeme = lexeme;
       }
     }
     definitions.add(lexeme);

@@ -15,6 +15,7 @@ import 'package:token_parser/src/lexemes/multiple.dart';
 
 import 'package:token_parser/src/lexemes/full.dart';
 import 'package:token_parser/src/lexemes/empty.dart';
+import 'package:token_parser/src/lexemes/main.dart';
 
 import 'package:token_parser/src/lexemes/start.dart';
 import 'package:token_parser/src/lexemes/end.dart';
@@ -111,6 +112,7 @@ abstract class Lexeme extends Pattern {
   
   factory Lexeme.full(Pattern pattern, { String? name }) = FullLexeme;
   factory Lexeme.empty() = EmptyLexeme;
+  factory Lexeme.main(Pattern pattern) = MainLexeme;
 
   factory Lexeme.start() = StartLexeme;
   factory Lexeme.end() = EndLexeme;

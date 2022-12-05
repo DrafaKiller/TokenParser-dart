@@ -8,7 +8,7 @@ class ReferenceLexeme extends Lexeme {
   String get lexemeName => namePattern.firstMatch(name!)!.group(1)!;
   set lexemeName(String name) => this.name = '(#$name)';
   
-  Lexeme get lexeme => (grammar?.lexeme(lexemeName) ?? (throw ReferenceLexemeNotFoundError(lexemeName)));
+  Lexeme get lexeme => grammar?.lexeme(lexemeName) ?? (throw ReferenceLexemeNotFoundError(lexemeName));
   set lexeme(Lexeme token) => lexemeName = token.name ?? (throw ReferenceLexemeNotFoundError(lexemeName));
   
   @override

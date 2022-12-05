@@ -4,7 +4,15 @@ import 'package:token_parser/src/token.dart';
 class TokenMatch<LexemeT extends Lexeme> extends Token<LexemeT> {
   final Match match;
 
-  TokenMatch(LexemeT pattern, this.match) : super(pattern, match.input, match.start, match.end);
+  TokenMatch(LexemeT pattern, this.match) : super(
+    pattern,
+    match.input,
+    match.start,
+    match.end,
+    children: {
+      if (match is Token) match,
+    }
+  );
 
   @override String? operator [](int group) {
     if (group == 0) return value;

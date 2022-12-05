@@ -3,13 +3,12 @@ import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/utils/iterable.dart';
 
 class TokenParent<LexemeT extends Lexeme> extends Token<LexemeT> {
-  @override final Set<Token> children;
-
-  TokenParent(LexemeT pattern, this.children) : super(
+  TokenParent(LexemeT pattern, Set<Token> children) : super(
     pattern,
     children.firstOrNull?.input ?? '',
     children.firstOrNull?.start ?? 0,
-    children.lastOrNull?.end ?? 0
+    children.lastOrNull?.end ?? 0,
+    children: children,
   );
 
   @override String? operator [](int group) {
