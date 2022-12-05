@@ -218,17 +218,27 @@ The process of generating this token is called **tokenization**.
 final grammar = Grammar(...);
 final token = grammar.parse('123');
 
-if (token != null) {
-  print('''
-    Value: ${ token.value }
-    Lexeme: ${ token.lexeme.name }
+print('''
+  Value: ${ token.value }
+  Lexeme: ${ token.lexeme.name }
 
-    Start: ${ token.start }
-    End: ${ token.end }
-    Length: ${ token.length }
-  ''');
-}
+  Start: ${ token.start }
+  End: ${ token.end }
+  Length: ${ token.length }
+''');
 ```
+
+### Lexical Syntax Error
+
+When tokenizing, if the input doesn't match any lexeme,
+it will throw a `LexicalSyntaxError` error.
+
+This error displays the position of the error,
+and the lexemes that were expected to match the input.
+Additionally, it will display the list of the lexemes that were
+traversed, as the path to the error.
+
+This error will skip any lexeme that is not named.
 
 ### Analysing the Token Tree
 
@@ -239,11 +249,11 @@ The reach of the search can be limited by using the `bool shallow` parameter, th
 ```dart
 final result = grammar.parse('two words');
 
-final words = result?.get(lexeme: word);
-final letters = result?.get(name: 'letter');
+final words = result.get(lexeme: word);
+final letters = result.get(name: 'letter');
 
-print('Words: ${ words?.map((token) => token.value) }');
-print('Letters: ${ letters?.get(letter).map((token) => token.value) }');
+print('Words: ${ words.map((token) => token.value) }');
+print('Letters: ${ letters.get(letter).map((token) => token.value) }');
 ```
 
 You may also use the `.children` and `.allChildren` for a more direct approach.
@@ -263,50 +273,50 @@ they may also be basic matching values, such as of Match type.
   ```dart
   import 'package:token_parser/token_parser.dart';
 
-  void main() {
-    final whitespace = ' ' | '\t';
-    final lineBreak = '\n' | '\r';
-    final space = (whitespace | lineBreak).multiple;
+  final whitespace = ' ' | '\t';
+  final lineBreak = '\n' | '\r';
+  final space = (whitespace | lineBreak).multiple;
 
-    final letter = '[a-zA-Z]'.regex;
-    final digit = '[0-9]'.regex;
+  final letter = '[a-zA-Z]'.regex;
+  final digit = '[0-9]'.regex;
 
-    final identifier = letter & (letter | digit).multiple.optional;
-    
-    final number = digit.multiple & ('.' & digit.multiple).optional;
-    final string = '"' & '[^"]*'.regex & '"'
+  final identifier = letter & (letter | digit).multiple.optional;
+
+  final number = digit.multiple & ('.' & digit.multiple).optional;
+  final string = '"' & '[^"]*'.regex & '"'
                 | "'" & "[^']*".regex & "'";
 
-    final variableDeclaration =
-      'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
+  final variableDeclaration =
+    'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);
 
-    final grammar = Grammar(
-      main: (variableDeclaration | space).multiple,
-      definitions: {
-        'whitespace': whitespace,
-        'lineBreak': lineBreak,
-        'space': space,
+  final grammar = Grammar(
+    main: (variableDeclaration | space).multiple,
+    definitions: {
+      'whitespace': whitespace,
+      'lineBreak': lineBreak,
+      'space': space,
 
-        'letter': letter,
-        'digit': digit,
+      'letter': letter,
+      'digit': digit,
 
-        'identifier': identifier,
+      'identifier': identifier,
 
-        'number': number,
-        'string': string,
+      'number': number,
+      'string': string,
 
-        'variableDeclaration': variableDeclaration,
-      },
-    );
+      'variableDeclaration': variableDeclaration,
+    },
+  );
 
+  void main() {
     final result = grammar.parse('''
       var hello = "world";
       var foo = 123;
       var bar = 123.456;
     ''');
-    
-    final numbers = result?.get(lexeme: number).map((match) => match.group(0));
-    final identifiers = result?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
+
+    final numbers = result.get(lexeme: number).map((match) => match.group(0));
+    final identifiers = result.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
 
     print('Numbers: $numbers');
     print('Identifiers: $identifiers');
@@ -325,24 +335,24 @@ they may also be basic matching values, such as of Match type.
   ```dart
   import 'package:token_parser/token_parser.dart';
 
+  final expression = 'a' & Lexeme.reference('characterB').optional;
+  final characterB = 'b'.lexeme();
+
+  final recursive = 'a' & Lexeme.self().optional;
+
+  final grammar = Grammar(
+    main: expression,
+    definitions: {
+      'expression': expression,
+      'characterB': characterB,
+      
+      'recursive': recursive,
+    }
+  );
+
   void main() {
-    final expression = 'a' & Lexeme.reference('characterB').optional;
-    final characterB = 'b'.lexeme();
-
-    final recursive = 'a' & Lexeme.self().optional;
-
-    final grammar = Grammar(
-      main: expression,
-      definitions: {
-        'expression': expression,
-        'characterB': characterB,
-        
-        'recursive': recursive,
-      }
-    );
-
-    print(grammar.parse('ab')?.get(lexeme: characterB));
-    print(grammar.parse('aaa', recursive)?.get(lexeme: recursive));
+    print(grammar.parse('ab').get(lexeme: characterB));
+    print(grammar.parse('aaa', recursive).get(lexeme: recursive).map);
   }
   ```
 </details>
