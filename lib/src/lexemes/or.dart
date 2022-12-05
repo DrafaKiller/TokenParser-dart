@@ -1,5 +1,4 @@
 import 'package:token_parser/src/internal/extension.dart';
-import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/lexemes/abstract/parent.dart';
 import 'package:token_parser/src/lexemes/abstract/bound.dart';
@@ -10,6 +9,8 @@ class OrLexeme extends ParentLexeme {
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+    
     for (final child in (priorityRight ? children.reversed : children)) {
       final token = child.optionalTokenizeFrom(this, string, start);
       if (token != null) return Token.match(this, token);
@@ -18,7 +19,7 @@ class OrLexeme extends ParentLexeme {
   }
 
   @override
-  String toString() => children.isNotEmpty
+  String get regexString => children.isNotEmpty
     ? children.length == 1
       ? children.first.toString()
       : '(?:${ children.join('|') })'
@@ -26,18 +27,16 @@ class OrLexeme extends ParentLexeme {
 }
 
 class OrBoundLexeme extends OrLexeme with BoundLexeme {
-  @override late final Lexeme left;
-  @override late final Lexeme right;
-
-  OrBoundLexeme(Pattern left, Pattern right, { super.priorityRight, super.name, super.grammar }) :
-    super([ left, right ])
-  {
-    this.left = children.first;
-    this.right = children.last;
-  }
+  OrBoundLexeme(Pattern left, Pattern right, {
+    super.priorityRight,
+    super.name,
+    super.grammar
+  }) : super([ left, right ]);
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+
     if (!priorityRight) {
       final leftMatch = left.optionalTokenizeFrom(this, string, start);
       if (leftMatch != null) return Token.match(this, leftMatch);

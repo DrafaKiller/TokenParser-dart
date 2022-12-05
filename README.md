@@ -111,6 +111,8 @@ Lexeme modification methods available:
   - `.full`
   - `.optional`
   - `.regex`
+  - `.character`
+  - `.spaced`
 
 ```dart
 final digit = '[0-9]'.regex;
@@ -120,6 +122,40 @@ final letter = '[a-zA-Z]'.regex;
 final word = letter.multiple;
 final phrase = word & (' ' & word).multiple.optional;
 ```
+
+### Operators
+
+Patterns, such as String, RegExp and Lexeme can be combined or modified using operators.
+
+Some operators can only be used to combine patterns, and others can only be used to modify patterns.
+Modifying operators must be placed before the target pattern.
+
+The available operators are:
+
+Operator  | Description | Action
+--------- | ----------- | -------
+`&` / `+` | And         | Combine
+`\|`      | Or          | Combine
+`-`       | Not         | Modify
+`~`       | Spaced      | Modify
+
+### Negative Lexemes
+
+The negation of lexemes might work differently than expected.
+Negation will not consume the input, but rather ensure that the pattern ahead does not match the target lexeme.
+
+This means negating a lexeme does **not** mean the same as "any character that is not".
+To consume any character that doesn't match the lexeme, use a `.not.character` combination.
+
+Additionally, notice the difference between the use of the negation operator with other modifiers:
+```dart
+final wrongLexeme = -'a'.multiple.optional;
+final lexeme = (-'a').multiple.optional;
+```
+
+Although `-'a'` would consume any character that is not "a", the multiple and optional are added before the negation. The negation of `wrongLexeme` was applied to the optional lexeme. 
+
+To ensure that the negation of a character is applied to the multiple and optional, you may use `.not.character.multiple.optional`
 
 ### Reference, and self-reference
 
@@ -249,6 +285,7 @@ The reach of the search can be limited by using the `bool shallow` parameter, th
 ```dart
 final result = grammar.parse('two words');
 
+final tokens = result.get();
 final words = result.get(lexeme: word);
 final letters = result.get(name: 'letter');
 
@@ -259,6 +296,50 @@ print('Letters: ${ letters.get(letter).map((token) => token.value) }');
 You may also use the `.children` and `.allChildren` for a more direct approach.
 Although the children are not guaranteed to be tokens,
 they may also be basic matching values, such as of Match type.
+
+## Debugging
+
+It's important to know how the grammar is tokenizing the input,
+and what lexemes are being used.
+For this reason, a debug mode and syntax errors are available.
+
+### Debug Mode
+
+Enable the debug mode by instantiating a `DebugGrammar` instead of a `Grammar`.
+
+```dart
+final grammar = DebugGrammar(...);
+```
+
+Additionally, you can specify debugging parameters:
+- `bool showAll`: Include lexemes with no name, defaults to `false`
+- `bool showPath`: Show the path to the lexeme, defaults to `false`
+- `Duration delay`: Delay between each step, defaults to `Duration.zero`
+
+The informative output is as follows.
+
+```log
+│
+│  (#3)
+├► Tokenizing named syntaxRule
+│    at index 0, character "/"
+│    on path: (main) → syntax → syntaxRule
+│
+```
+
+### Lexical Syntax Errors
+
+Syntax errors are thrown when the input doesn't match a required lexeme.
+The error will display the character, index, lexeme and path.
+
+```log
+LexicalSyntaxError: Unexpected character "/"
+	at index 0
+	with lexeme "syntax"
+	on path:
+		→ syntax
+		↑ (main)
+```
 
 ## Example
 
@@ -352,7 +433,7 @@ they may also be basic matching values, such as of Match type.
 
   void main() {
     print(grammar.parse('ab').get(lexeme: characterB));
-    print(grammar.parse('aaa', recursive).get(lexeme: recursive).map);
+    print(grammar.parse('aaa', recursive).get(lexeme: recursive));
   }
   ```
 </details>

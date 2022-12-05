@@ -19,12 +19,12 @@ class LexicalSyntaxError extends Error {
       'LexicalSyntaxError: Unexpected end of input'
     ,
     'at index $index',
-    if (filteredPath.isNotEmpty) 'on lexeme "${ filteredPath.last.displayName }"',
-    if (filteredPath.length > 1) 'path:\n\t\t→ ${
+    if (filteredPath.isNotEmpty) 'with lexeme "${ filteredPath.last.displayName }"',
+    if (filteredPath.length > 1) 'on path:\n\t  → ${
       filteredPath
         .reversed
         .map((lexeme) => lexeme.displayName)
-        .join('\n\t\t↑ ')
+        .join('\n\t  ↑ ')
     }',
     ''
   ].join('\n\t');
@@ -32,10 +32,7 @@ class LexicalSyntaxError extends Error {
   List<Lexeme> get filteredPath =>
     path.where((lexeme) => showUnnamed ? true : lexeme.name != null).toList();
 
-  static ResultT enclose<ResultT>(
-    Lexeme lexeme,
-    ResultT Function() execute
-  ) {
+  static ResultT enclose<ResultT>(Lexeme lexeme, ResultT Function() execute) {
     try {
       return execute();
     } on LexicalSyntaxError catch (error) {

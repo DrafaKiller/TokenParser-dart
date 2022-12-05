@@ -1,5 +1,5 @@
+import 'package:token_parser/debug.dart';
 import 'package:token_parser/src/error.dart';
-import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/tokens/match.dart';
 import 'package:token_parser/src/tokens/parent.dart';
 
@@ -46,7 +46,12 @@ class Token<LexemeT extends Lexeme> extends Match {
   /// print('Letters: ${ letters?.get(letter).map((token) => match.value) }');
   /// ```
   Token(this.pattern, this.input, this.start, this.end, { Set<Token>? children }) :
-    children = children ?? <Token>{};
+    children = children ?? <Token>{}
+  {
+    if (lexeme.grammar is DebugGrammar) {
+      (lexeme.grammar as DebugGrammar).tokenizing(lexeme, input, start);
+    }
+  }
 
   /// Creates a token that wraps a match.
   /// 
@@ -67,8 +72,10 @@ class Token<LexemeT extends Lexeme> extends Match {
   factory Token.emptyAt(LexemeT pattern, String string, int start) => Token(pattern, string, start, start);
   
   /// Throw a **LexicalSyntaxError** for a token that doesn't match.
-  factory Token.mismatch(LexemeT pattern, String string, int start) =>
+  factory Token.mismatch(LexemeT pattern, String string, int start) {
+    Token.emptyAt(pattern, string, start);
     throw LexicalSyntaxError(pattern, string, start);
+  }
 
   /* -= Match Methods =- */
 
@@ -108,11 +115,7 @@ class Token<LexemeT extends Lexeme> extends Match {
     input == other.input &&
     samePosition(other);
     
-  @override int get hashCode =>
-    lexeme.hashCode ^
-    input.hashCode ^
-    start.hashCode ^
-    end.hashCode;
+  @override int get hashCode => Object.hash(lexeme, input, start, end);
 
   /* -= Analysis =- */
 
@@ -132,8 +135,9 @@ class Token<LexemeT extends Lexeme> extends Match {
   /// ```dart
   /// final match = grammar.parse('two words');
   /// 
-  /// final words = match?.get(lexeme: word);
-  /// final letters = match?.get(name: 'letter');
+  /// final tokens = match.get();
+  /// final words = match.get(lexeme: word);
+  /// final letters = match.get(name: 'letter');
   /// ```
   Set<Token> get<T extends Lexeme>({ T? lexeme, String? name, bool? shallow }) {
     shallow ??= lexeme == null && name == null;

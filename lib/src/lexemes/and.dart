@@ -1,5 +1,4 @@
 import 'package:token_parser/src/internal/extension.dart';
-import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 import 'package:token_parser/src/lexemes/abstract/parent.dart';
 import 'package:token_parser/src/lexemes/abstract/bound.dart';
@@ -9,6 +8,8 @@ class AndLexeme extends ParentLexeme {
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+    
     final tokens = <Token>{};
     int index = start;
     for (final child in children) {
@@ -20,26 +21,21 @@ class AndLexeme extends ParentLexeme {
   }
 
   @override
-  String toString() => children.isNotEmpty
+  String get regexString => children.isNotEmpty
     ? children.length == 1
       ? children.first.toString()
-      : '(?:${ children.join('') })'
+      : '(?:${children.join('')})'
     : '';
 }
 
 class AndBoundLexeme extends AndLexeme with BoundLexeme {
-  @override late final Lexeme left;
-  @override late final Lexeme right;
-
   AndBoundLexeme(Pattern left, Pattern right, { super.name, super.grammar }) :
-    super([ left, right ])
-  {
-    this.left = children.first;
-    this.right = children.last;
-  }
+    super([ left, right ]);
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+
     final leftToken = left.tokenizeFrom(this, string, start);
     final rightToken = right.tokenizeFrom(this, string, leftToken.end);
     return Token.matches(this, { leftToken, rightToken });

@@ -18,7 +18,18 @@ extension LexicalAnalysisPattern on Pattern {
   Lexeme operator +(Pattern other) => this & other;
   Lexeme operator &(Pattern other) => Lexeme.and(this, other);
   Lexeme operator |(Pattern other) => Lexeme.or(this, other);
-  
+
+  /// Lexical operator to negate the current pattern and comsume the next character.
+  /// 
+  /// Equivalent to `this.not.character`.
+  Lexeme operator -() => not.character;
+
+  /// Lexical operator to add spacing around the current pattern.
+  /// The spacing is multiple and optional.
+  /// 
+  /// Equivalent to `this.spaced`.
+  Lexeme operator ~() => spaced;
+
   /* -= Lexeme Modification =- */
 
   /// Allows the current pattern to be matched multiple times.
@@ -35,7 +46,7 @@ extension LexicalAnalysisPattern on Pattern {
   /// This lexeme can be matched zero or more times.
   /// 
   /// Equivalent to `this*`.
-  Lexeme get multipleOrNone => Lexeme.multiple(this, orNone: true);
+  Lexeme get multipleOrNone => multiple.optional;
 
   /// Ensures that the current pattern is not matched.
   Lexeme get not => Lexeme.not(this);
@@ -55,12 +66,12 @@ extension LexicalAnalysisPattern on Pattern {
   /// The pattern may be more than one character,
   /// but the resulting token will only be the first character.
   Lexeme get character => Lexeme.character(this);
-
-  /// Matches the next character with the negative of a pattern.
+  
+  /// Adds spacing to the surrounding of the current pattern.
+  /// The spacing is multiple and optional.
   /// 
-  /// The pattern may be more than one character,
-  /// but the resulting token will only be the first character.
-  Lexeme get notCharacter => Lexeme.character(this, not: true);
+  /// Equivalent to `this.gap(spacing)`.
+  Lexeme get spaced => pad(spacing);
 
   /// Surrounds the current pattern with another pattern.
   /// The pattern is multiple and optional.
@@ -105,3 +116,15 @@ final self = Lexeme.self;
 
 /// Creates a lexeme that always matches, because it's an empty rule.
 final empty = Lexeme.empty;
+
+/// Creates a lexeme that matches any character.
+Lexeme any({ Pattern? not }) {
+  if (not != null) return -not;
+  return Lexeme.any();
+}
+
+final whitespace = ' ' | '\t';
+final newLine = '\n' | '\r' | '\f';
+
+/// Matches a space character.
+final spacing = whitespace | newLine;

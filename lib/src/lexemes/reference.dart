@@ -1,3 +1,4 @@
+import 'package:token_parser/src/debug.dart';
 import 'package:token_parser/src/error.dart';
 import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
@@ -13,11 +14,13 @@ class ReferenceLexeme extends Lexeme {
   
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+    
     if (grammar == null) throw ReferenceLexemeUseError(lexemeName);
     return lexeme.tokenize(string, start);
   }
   
-  @override String toString() => '[#$lexemeName]';
+  @override String get regexString => '[#$lexemeName]';
 
   static final namePattern = RegExp(r'^\(#(?<name>.*)\)$');
 }
