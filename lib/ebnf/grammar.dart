@@ -1,7 +1,11 @@
 import 'package:token_parser/token_parser.dart';
 
 void main() {
-  print(grammar.parse('letter = "A";'));
+  final result = grammar.parse('''
+    letter = "A" | "B";
+    letter2 = "C";
+  ''');
+  print(result.get(lexeme: metaIdentifier));
 }
 
 /* -= Basic Grammar =- */
@@ -10,39 +14,39 @@ final letter = '[a-zA-Z]'.regex;
 
 final decimalDigit = '[0-9]'.regex;
 
-final concatenateSymbol = ','.lexeme();
+final concatenateSymbol = ','.pad(gapSeparator);
 
-final definingSymbol = '='.lexeme();
+final definingSymbol = '='.pad(gapSeparator);
 
-final definitionSeperatorSymbol = '|' | '/' | '!';
+final definitionSeperatorSymbol = ('|' | '/' | '!').pad(gapSeparator);
 
-final startCommentSymbol = '(*'.lexeme();
+final startCommentSymbol = '(*'.pad(gapSeparator);
 
-final startGroupSymbol = '('.lexeme();
+final startGroupSymbol = '('.pad(gapSeparator);
 
-final endCommentSymbol = '*)'.lexeme();
+final endCommentSymbol = '*)'.pad(gapSeparator);
 
-final endGroupSymbol = ')'.lexeme();
+final endGroupSymbol = ')'.pad(gapSeparator);
 
-final endOptionSymbol = ']' | '/)';
+final endOptionSymbol = (']' | '/)').pad(gapSeparator);
 
-final endRepeatSymbol = '}' | ':)';
+final endRepeatSymbol = ('}' | ':)').pad(gapSeparator);
 
-final exceptSymbol = '-'.lexeme();
+final exceptSymbol = '-'.pad(gapSeparator);
 
 final firstQuoteSymbol = "'".lexeme();
 
-final repetitionSymbol = '*'.lexeme();
+final repetitionSymbol = '*'.pad(gapSeparator);
 
 final secondQuoteSymbol = '"'.lexeme();
 
-final specialSequenceSymbol = '?'.lexeme();
+final specialSequenceSymbol = '?'.pad(gapSeparator);
 
-final startOptionSymbol = '[' | '(/';
+final startOptionSymbol = ('[' | '(/').pad(gapSeparator);
 
-final startRepeatSymbol = '{' | '(:';
+final startRepeatSymbol = ('{' | '(:').pad(gapSeparator);
 
-final terminatorSymbol = ';' | '.';
+final terminatorSymbol = (';' | '.').pad(gapSeparator);
 
 final otherCharacter =
   ' ' | ':' | '+' | '_' | '%' | '@' | '&' |
@@ -83,16 +87,16 @@ final terminalCharacter =
   | otherCharacter;
 
 final gapFreeSymbol =
-  ((firstQuoteSymbol | secondQuoteSymbol) & terminalCharacter).not
+  ((firstQuoteSymbol | secondQuoteSymbol) & terminalCharacter).notCharacter
   | terminalString;
   
 final terminalString =
  (firstQuoteSymbol & firstTerminalCharacter & (firstTerminalCharacter).multiple.optional & firstQuoteSymbol)
   | (secondQuoteSymbol & secondTerminalCharacter & (secondTerminalCharacter).multiple.optional & secondQuoteSymbol);
 
-final firstTerminalCharacter = (firstQuoteSymbol & terminalCharacter).not;
+final firstTerminalCharacter = (firstQuoteSymbol & terminalCharacter).notCharacter;
 
-final secondTerminalCharacter = (secondQuoteSymbol & terminalCharacter).not;
+final secondTerminalCharacter = (secondQuoteSymbol & terminalCharacter).notCharacter;
 
 final gapSeparator = 
   spaceCharacter
@@ -115,7 +119,7 @@ final commentlessSymbol =
       | specialSequenceSymbol
       | otherCharacter
     ) & terminalCharacter
-  ).not
+  ).notCharacter
   | metaIdentifier
   | integer
   | terminalString
@@ -129,7 +133,7 @@ final metaIdentifierCharacter = letter | decimalDigit;
 
 final specialSequence = specialSequenceSymbol & specialSequenceCharacter.multiple.optional & specialSequenceSymbol;
 
-final specialSequenceCharacter = (specialSequenceSymbol & terminalCharacter).not;
+final specialSequenceCharacter = (specialSequenceSymbol & terminalCharacter).notCharacter;
 
 final commentSymbol =
   bracketedTextualComment
@@ -138,7 +142,7 @@ final commentSymbol =
 
 final bracketedTextualComment = startCommentSymbol & reference('commentSymbol').multiple.optional & endCommentSymbol;
 
-final syntaxRule = metaIdentifier & definingSymbol & definitionsList & terminatorSymbol;
+final syntaxRule = (metaIdentifier & definingSymbol & definitionsList & terminatorSymbol).pad(gapSeparator);
 
 final definitionsList = singleDefinition & (definitionSeperatorSymbol & singleDefinition).multiple.optional;
 
@@ -166,6 +170,8 @@ final repeatedSequence = startRepeatSymbol & reference('definitionsList') & endR
 final groupedSequence = startGroupSymbol & reference('definitionsList') & endGroupSymbol;
 
 final emptySequence = empty();
+
+/* -= Extra Grammar =- */
 
 /* -= Grammar =- */
 

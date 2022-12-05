@@ -12,7 +12,7 @@ class ReferenceLexeme extends Lexeme {
   set lexeme(Lexeme token) => lexemeName = token.name ?? (throw ReferenceLexemeNotFoundError(lexemeName));
   
   @override
-  Token tokenize(String string, [int start = 0]) {
+  Token tokenize(String string, [ int start = 0 ]) {
     if (grammar == null) throw ReferenceLexemeUseError(lexemeName);
     return lexeme.tokenize(string, start);
   }

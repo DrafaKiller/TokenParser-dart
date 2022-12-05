@@ -29,7 +29,7 @@ class OrBoundLexeme extends OrLexeme with BoundLexeme {
   @override late final Lexeme left;
   @override late final Lexeme right;
 
-  OrBoundLexeme(Pattern left, Pattern right, { super.name, super.priorityRight }) :
+  OrBoundLexeme(Pattern left, Pattern right, { super.priorityRight, super.name, super.grammar }) :
     super([ left, right ])
   {
     this.left = children.first;

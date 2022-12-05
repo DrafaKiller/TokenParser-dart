@@ -11,7 +11,7 @@ class PatternLexeme<PatternT extends Pattern> extends ParentLexeme {
     super(pattern is Lexeme ? [ pattern ] : []);
 
   @override
-  Token tokenize(String string, [int start = 0]) {
+  Token tokenize(String string, [ int start = 0 ]) {
     final token = LexicalSyntaxError.enclose(this, () => pattern.matchAsPrefix(string, start));
     if (token == null) throw LexicalSyntaxError(this, string, start);
     return Token.match(this, token);

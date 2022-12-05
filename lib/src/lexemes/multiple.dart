@@ -9,7 +9,7 @@ class MultipleLexeme extends PatternLexeme {
   MultipleLexeme(super.pattern, { this.orNone = false, super.name, super.grammar });
 
   @override
-  Token tokenize(String string, [int start = 0]) {
+  Token tokenize(String string, [ int start = 0 ]) {
     final tokens = LexicalSyntaxError.enclose(this, () => pattern.lexeme().allMatches(string, start));
     if (tokens.isEmpty && !orNone) return Token.mismatch(this, string, start);
     return Token.matches(this, tokens);

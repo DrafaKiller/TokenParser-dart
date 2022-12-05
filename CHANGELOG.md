@@ -6,6 +6,8 @@
 
 Added:
 - Tokenization error, `LexicalSyntaxError`, is thrown when a token is not matched.
+- `CharacterLexeme` to match single characters
+- `lexeme.pad()` method surrounds the lexeme with another lexeme
 - `.length` property to token, which returns the length of value matched
 - `empty()` top-level extension lexeme, same as `Lexeme.empty()`
 

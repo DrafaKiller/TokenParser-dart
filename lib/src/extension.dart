@@ -50,6 +50,24 @@ extension LexicalAnalysisPattern on Pattern {
   /// Equivalent to `this?`.
   Lexeme get optional => Lexeme.optional(this);
 
+  /// Matches the next character with a pattern.
+  /// 
+  /// The pattern may be more than one character,
+  /// but the resulting token will only be the first character.
+  Lexeme get character => Lexeme.character(this);
+
+  /// Matches the next character with the negative of a pattern.
+  /// 
+  /// The pattern may be more than one character,
+  /// but the resulting token will only be the first character.
+  Lexeme get notCharacter => Lexeme.character(this, not: true);
+
+  /// Surrounds the current pattern with another pattern.
+  /// The pattern is multiple and optional.
+  /// 
+  /// Equivalent to `pattern*-this-pattern*`.
+  Lexeme pad(Pattern pattern) => Lexeme.andAll([ pattern.multiple.optional, this, pattern.multiple.optional ]);
+
   /// Transforms the current pattern into a RegExp lexeme.
   /// 
   /// Should only be used on string patterns,

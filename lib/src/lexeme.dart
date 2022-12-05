@@ -20,6 +20,8 @@ import 'package:token_parser/src/lexemes/main.dart';
 import 'package:token_parser/src/lexemes/start.dart';
 import 'package:token_parser/src/lexemes/end.dart';
 
+import 'package:token_parser/src/lexemes/character.dart';
+
 import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/lexemes/self.dart';
 
@@ -69,7 +71,7 @@ abstract class Lexeme extends Pattern {
   ///
   /// **Caution:** Avoid using this method, use `.tokenize` instead.
   @override
-  Set<Token> allMatches(String string, [int start = 0]) {
+  Set<Token> allMatches(String string, [ int start = 0 ]) {
     final tokens = <Token>{};
     Token? token;
     while ((token = optionalTokenize(string, start)) != null) {
@@ -81,7 +83,7 @@ abstract class Lexeme extends Pattern {
 
   /// **Caution:** Avoid using this method, use `.tokenize` instead.
   @override
-  Token matchAsPrefix(String string, [int start = 0]) => tokenize(string, start);
+  Token matchAsPrefix(String string, [ int start = 0 ]) => tokenize(string, start);
 
   /* -= Tokenization =- */
 
@@ -149,14 +151,14 @@ abstract class Lexeme extends Pattern {
   factory Lexeme.regex(String pattern, { String? name }) => PatternLexeme(RegExp(pattern), name: name);
 
   factory Lexeme.and(Pattern left, Pattern right, { String? name }) = AndBoundLexeme;
-  factory Lexeme.andAll(List<Lexeme> children, { String? name }) = AndLexeme;
+  factory Lexeme.andAll(List<Pattern> children, { String? name }) = AndLexeme;
 
   factory Lexeme.or(Pattern left, Pattern right, { String? name }) = OrBoundLexeme;
-  factory Lexeme.orAll(List<Lexeme> children, { String? name }) = OrLexeme;
+  factory Lexeme.orAll(List<Pattern> children, { String? name }) = OrLexeme;
 
   factory Lexeme.not(Pattern pattern, { String? name }) = NotLexeme;
   factory Lexeme.optional(Pattern pattern, { String? name }) = OptionalLexeme;
-  factory Lexeme.multiple(Pattern pattern, { String? name, bool orNone }) = MultipleLexeme;
+  factory Lexeme.multiple(Pattern pattern, { bool orNone, String? name }) = MultipleLexeme;
   
   factory Lexeme.full(Pattern pattern, { String? name }) = FullLexeme;
   factory Lexeme.empty() = EmptyLexeme;
@@ -164,6 +166,10 @@ abstract class Lexeme extends Pattern {
 
   factory Lexeme.start() = StartLexeme;
   factory Lexeme.end() = EndLexeme;
+
+  factory Lexeme.character(Pattern pattern, {
+    bool not, String? name
+  }) = CharacterLexeme;
 
   factory Lexeme.reference(String name, { Grammar? grammar }) = ReferenceLexeme;
   factory Lexeme.ref(String name, { Grammar? grammar }) = ReferenceLexeme;
