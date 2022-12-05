@@ -52,7 +52,7 @@ final identifier = letter & (letter | digit).multiple.optional;
 
 final grammar = Grammar(
   main: identifier & space & '=' & space & number,
-  definitions: {
+  rules: {
     'whitespace': whitespace,
     'lineBreak': lineBreak,
     'space': space,
@@ -151,7 +151,7 @@ Grammar can be defined in two ways, using the constructor:
 ```dart
 final grammar = Grammar(
   main: phrase | number,
-  definitions: {
+  rules: {
     'digit': digit,
     'number': number,
 
@@ -291,7 +291,7 @@ they may also be basic matching values, such as of Match type.
 
   final grammar = Grammar(
     main: (variableDeclaration | space).multiple,
-    definitions: {
+    rules: {
       'whitespace': whitespace,
       'lineBreak': lineBreak,
       'space': space,
@@ -342,7 +342,7 @@ they may also be basic matching values, such as of Match type.
 
   final grammar = Grammar(
     main: expression,
-    definitions: {
+    rules: {
       'expression': expression,
       'characterB': characterB,
       

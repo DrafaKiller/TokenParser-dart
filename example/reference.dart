@@ -7,7 +7,7 @@ final recursive = 'a' & Lexeme.self().optional;
 
 final grammar = Grammar(
   main: expression,
-  definitions: {
+  rules: {
     'expression': expression,
     'characterB': characterB,
     

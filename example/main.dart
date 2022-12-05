@@ -18,7 +18,7 @@ final variableDeclaration =
 
 final grammar = Grammar(
   main: (variableDeclaration | space).multiple,
-  definitions: {
+  rules: {
     'whitespace': whitespace,
     'lineBreak': lineBreak,
     'space': space,
