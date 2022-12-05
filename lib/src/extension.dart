@@ -21,9 +21,6 @@ extension LexicalAnalysisPattern on Pattern {
   
   /* -= Lexeme Modification =- */
 
-  /// Ensures that the current pattern is not matched.
-  Lexeme get not => Lexeme.not(this);
-  
   /// Allows the current pattern to be matched multiple times.
   /// The result of the match will be grouped into a single token.
   /// 
@@ -40,11 +37,14 @@ extension LexicalAnalysisPattern on Pattern {
   /// Equivalent to `this*`.
   Lexeme get multipleOrNone => Lexeme.multiple(this, orNone: true);
 
+  /// Ensures that the current pattern is not matched.
+  Lexeme get not => Lexeme.not(this);
+  
   /// Ensures that the current pattern is matched from the start of the input to the end.
   /// 
   /// Equivalent to `^this$`.
   Lexeme get full => Lexeme.full(this);
-
+  
   /// Allows the current pattern to be matched zero or one time.
   /// 
   /// Equivalent to `this?`.
