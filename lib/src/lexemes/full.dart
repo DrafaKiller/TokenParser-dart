@@ -1,3 +1,4 @@
+import 'package:token_parser/src/internal/extension.dart';
 import 'package:token_parser/src/lexemes/pattern.dart';
 import 'package:token_parser/src/token.dart';
 
@@ -5,12 +6,12 @@ class FullLexeme extends PatternLexeme {
   FullLexeme(super.pattern, { super.name, super.grammar });
   
   @override
-  Token? tokenize(String string, [ int start = 0 ]) {
-    final match = pattern.matchAsPrefix(string, start);
-    if (match == null) return null;
-    if (match.start != start) return null;
-    if (match.end != string.length) return null;
-    return Token.match(this, match);
+  Token tokenize(String string, [ int start = 0 ]) {
+    final token = pattern.tokenizeFrom(this, string, start);
+    if (token.start != start || token.end != string.length) {
+      return Token.mismatch(this, string, token.end);
+    }
+    return Token.match(this, token);
   }
 
   @override String toString() => '^$pattern\$';

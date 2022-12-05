@@ -42,8 +42,8 @@ void main() {
     var bar = 123.456;
   ''');
   
-  final numbers = result?.get(lexeme: number).map((match) => match.group(0));
-  final identifiers = result?.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
+  final numbers = result.get(lexeme: number).map((match) => match.group(0));
+  final identifiers = result.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
 
   print('Numbers: $numbers');
   print('Identifiers: $identifiers');
