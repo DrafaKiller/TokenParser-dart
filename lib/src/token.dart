@@ -1,4 +1,5 @@
 import 'package:token_parser/debug.dart';
+import 'package:token_parser/token_parser.dart';
 import 'package:token_parser/src/error.dart';
 import 'package:token_parser/src/tokens/match.dart';
 import 'package:token_parser/src/tokens/parent.dart';

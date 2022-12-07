@@ -1,3 +1,8 @@
+## 1.1.0
+
+Changed:
+- Shorter error messages, to be less descriptive
+
 ## 1.0.0
 
 **BREAKING CHANGES:**

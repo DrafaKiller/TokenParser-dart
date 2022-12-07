@@ -51,8 +51,7 @@ class ReferenceLexemeUseError extends Error {
   @override
   String toString() =>
     'Reference lexeme${ name != null ? ' "#$name"' : '' } present in pattern, '
-    'must be replaced with a concrete token before using it.\n'
-    'Make sure to pass a grammar to the reference, or append it.';
+    'must be replaced with a concrete token before using it.';
 }
 
 class ReferenceLexemeNotFoundError extends Error {
@@ -60,13 +59,12 @@ class ReferenceLexemeNotFoundError extends Error {
   ReferenceLexemeNotFoundError(this.name);
 
   @override
-  String toString() => 'Lexeme reference ${ name == null ? 'null' : '"$name"' } not found in grammar. ';
+  String toString() => 'Lexeme reference ${ name == null ? 'null' : '"$name"' } not found in grammar.';
 }
 
 /* -= Token Errors =- */
 
 class MissingMainLexemeError extends Error {
   @override
-  String toString() => 'Missing main lexeme in grammar, lexeme named "(main)".\n'
-    'Make sure to pass a main lexeme to the grammar, or append it.';
+  String toString() => 'Missing main lexeme in grammar, no lexeme named "(main)" provided.';
 }
