@@ -7,6 +7,8 @@ class FullLexeme extends PatternLexeme {
   
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+
     final token = pattern.tokenizeFrom(this, string, start);
     if (token.start != start || token.end != string.length) {
       return Token.mismatch(this, string, token.end);
@@ -14,5 +16,5 @@ class FullLexeme extends PatternLexeme {
     return Token.match(this, token);
   }
 
-  @override String toString() => '^$pattern\$';
+  @override String get regexString => '^$pattern\$';
 }

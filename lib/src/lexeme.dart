@@ -30,6 +30,7 @@ import 'package:token_parser/src/lexemes/self.dart';
 abstract class Lexeme extends Pattern {
   String? name;
   Grammar? grammar;
+  Lexeme? parent;
 
   /// ## Token Parser - Lexeme
   /// 
@@ -97,6 +98,7 @@ abstract class Lexeme extends Pattern {
   /// If the input doesn't match the lexeme, it will return `null`.
   Token? optionalTokenize(String string, [ int start = 0 ]) {
     try {
+      if (start >= string.length) return null;
       return tokenize(string, start);
     } on LexicalSyntaxError {
       return null;
@@ -110,9 +112,24 @@ abstract class Lexeme extends Pattern {
   void bind(Grammar grammar) => this.grammar = grammar;
   void unbind() => grammar = null;
 
+  /// Binding a lexeme to a parent will set the parent as the lexeme's parent.
+  /// Allowing the lexeme to access the parent's lexemes, useful when debugging.
+  void bindParent(Lexeme parent) => this.parent = parent;
+  void unbindParent() => parent = null;
+
   /* -= Identification =- */
 
   String get displayName => name ?? runtimeType.toString();
+
+  @override
+  String toString() => 'Lexical ${ name != null ? '"$name"' : displayName  }';
+
+  /// The regex string of the lexeme, useful for debugging.
+  /// 
+  /// **Caution:**<br>
+  /// This is not a valid regex string, it's a representation of the lexeme for debugging purposes.
+  /// References are impossible to represent in a regex string.
+  String get regexString;
 
   /* -= Compararison =- */
 
@@ -125,6 +142,11 @@ abstract class Lexeme extends Pattern {
   int get hashCode => name.hashCode;
 
   /* -= Analysis =- */
+
+  List<Lexeme> get path => [
+    if (parent != null) ...parent!.path,
+    this
+  ];
 
   List<Lexeme> get children => [];
   List<Lexeme> get allChildren => [
@@ -158,7 +180,7 @@ abstract class Lexeme extends Pattern {
 
   factory Lexeme.not(Pattern pattern, { String? name }) = NotLexeme;
   factory Lexeme.optional(Pattern pattern, { String? name }) = OptionalLexeme;
-  factory Lexeme.multiple(Pattern pattern, { bool orNone, String? name }) = MultipleLexeme;
+  factory Lexeme.multiple(Pattern pattern, { String? name }) = MultipleLexeme;
   
   factory Lexeme.full(Pattern pattern, { String? name }) = FullLexeme;
   factory Lexeme.empty() = EmptyLexeme;
@@ -167,9 +189,8 @@ abstract class Lexeme extends Pattern {
   factory Lexeme.start() = StartLexeme;
   factory Lexeme.end() = EndLexeme;
 
-  factory Lexeme.character(Pattern pattern, {
-    bool not, String? name
-  }) = CharacterLexeme;
+  factory Lexeme.character(Pattern pattern, { String? name }) = CharacterLexeme;
+  factory Lexeme.any() = CharacterLexeme.any;
 
   factory Lexeme.reference(String name, { Grammar? grammar }) = ReferenceLexeme;
   factory Lexeme.ref(String name, { Grammar? grammar }) = ReferenceLexeme;

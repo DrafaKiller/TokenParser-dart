@@ -4,6 +4,7 @@ import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 
 export 'package:token_parser/src/extension.dart';
+export 'package:token_parser/src/debug.dart';
 
 extension LexicalAnalysisPatternInternal on Pattern {
   /* -= Tokenization =- */
@@ -16,6 +17,7 @@ extension LexicalAnalysisPatternInternal on Pattern {
     try {
       return tokenizeFrom(lexeme, string, start);
     } on LexicalSyntaxError {
+      Token.emptyAt(lexeme, string, start);
       return null;
     }
   }

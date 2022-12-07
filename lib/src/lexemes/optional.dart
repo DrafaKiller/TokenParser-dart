@@ -7,10 +7,12 @@ class OptionalLexeme extends PatternLexeme {
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+
     final token = pattern.optionalTokenizeFrom(this, string, start);
     if (token == null) return Token.emptyAt(this, string, start);
     return Token.match(this, token);
   }
 
-  @override String toString() => '(?:$pattern)?';
+  @override get regexString => '(?:$pattern)?';
 }

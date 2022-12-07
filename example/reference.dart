@@ -17,5 +17,5 @@ final grammar = Grammar(
 
 void main() {
   print(grammar.parse('ab').get(lexeme: characterB));
-  print(grammar.parse('aaa', recursive).get(lexeme: recursive).map);
+  print(grammar.parse('aaa', recursive).get(lexeme: recursive));
 }

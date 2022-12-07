@@ -7,10 +7,12 @@ class NotLexeme extends PatternLexeme {
 
   @override
   Token tokenize(String string, [ int start = 0 ]) {
+    DebugGrammar.debug(this, string, start);
+
     final token = pattern.optionalTokenizeFrom(this, string, start);
     if (token != null) return Token.mismatch(this, string, start);
     return Token.emptyAt(this, string, start);
   }
 
-  @override String toString() => '(?!$pattern)';
+  @override String get regexString => '(?!$pattern)';
 }
