@@ -20,11 +20,11 @@ class LexicalSyntaxError extends Error {
     ,
     'at index $index',
     if (filteredPath.isNotEmpty) 'with lexeme "${ filteredPath.last.displayName }"',
-    if (filteredPath.length > 1) 'on path:\n\t  → ${
+    if (filteredPath.length > 1) 'on path:\n\t\t→ ${
       filteredPath
         .reversed
         .map((lexeme) => lexeme.displayName)
-        .join('\n\t  ↑ ')
+        .join('\n\t\t↑ ')
     }',
     ''
   ].join('\n\t');

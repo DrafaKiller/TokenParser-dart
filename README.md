@@ -16,14 +16,10 @@ Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis
 - Tokenization
 - Parsing
 - Referencing, and self-referencing
+- Lexical Syntax Error
+- Debugging
 
-## In progress
-
-- [x] Reorganize documentation
-- [ ] Implement EBNF grammar
-- [ ] Parse grammar from a file
-
-## Getting Started 
+## Getting Started
 
 ```
 dart pub add token_parser
@@ -337,8 +333,8 @@ LexicalSyntaxError: Unexpected character "/"
 	at index 0
 	with lexeme "syntax"
 	on path:
-		→ syntax
-		↑ (main)
+		  → syntax
+		  ↑ (main)
 ```
 
 ## Example
