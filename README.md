@@ -61,9 +61,9 @@ final grammar = Grammar(
   }
 );
 
-final result = grammar.parse('myNumber = 12.3');
-print(result);
-if (result != null) {
+void main() {
+  final result = grammar.parse('myNumber = 12.3');
+
   print('Identifier: ${ result.get(lexeme: identifier).first.value }');
   print('Number: ${ result.get(lexeme: number).first.value }');
   // [Output]
@@ -100,7 +100,8 @@ final abc = ('a' | 'b' | 'c').multiple;
 final expression = abc & 'd'.optional;
 ```
 
-For convenience, a lexeme can be defined using a regular expression.<br>
+For convenience, a lexeme can be defined using a regular expression.
+
 Lexeme modification methods available:
   - `.not`
   - `.multiple` / `.multipleOrNone`
@@ -243,7 +244,7 @@ It can also be used to get the children tokens.
 
 ## Token
 
-A token is a result of matching a lexeme to an input.
+A token is the result of matching a lexeme to an input.
 It contains the value of the lexeme that matched and the position of the token.
 
 The process of generating this token is called **tokenization**.

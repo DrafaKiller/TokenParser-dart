@@ -4,7 +4,7 @@ TODO:
 
 Added:
 - `anyUntil(pattern)` top-level lexeme, matches any character until the pattern is matched
-- `pattern.until(pattern)` lexeme extension, matches the pattern until the pattern is matched
+- `pattern.until(pattern)` lexeme extension, matches the current pattern until the target pattern is matched
 - `pattern.repeat(min, [ max ])` lexeme extension, matches the pattern between `min` and `max` times
 - `start`, `end` top-level lexemes, matches the start and end of the input
 - `startLine`, `endLine` top-level lexemes, matches the start and end of the line
