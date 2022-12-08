@@ -1,4 +1,6 @@
-import 'package:token_parser/src/internal/extension.dart';
+import 'package:token_parser/src/debug.dart';
+import 'package:token_parser/src/extension.dart';
+import 'package:token_parser/src/extensions/tokenize.dart';
 import 'package:token_parser/src/lexemes/pattern.dart';
 import 'package:token_parser/src/token.dart';
 

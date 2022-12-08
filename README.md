@@ -15,7 +15,7 @@ Read more about it on [Wikipedia](https://en.wikipedia.org/wiki/Lexical_analysis
 - Syntax/grammar definition
 - Tokenization
 - Parsing
-- Referencing, and self-referencing
+- Referencing, and self-reference
 - Lexical Syntax Error
 - Debugging
 
@@ -336,8 +336,8 @@ LexicalSyntaxError: Unexpected character "/"
 	at index 0
 	with lexeme "syntax"
 	on path:
-		  → syntax
-		  ↑ (main)
+		→ syntax
+		↑ (main)
 ```
 
 ## Example

@@ -1,5 +1,5 @@
 import 'package:token_parser/src/error.dart';
-import 'package:token_parser/src/internal/extension.dart';
+import 'package:token_parser/src/extension.dart';
 import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/lexemes/main.dart';
 import 'package:token_parser/src/lexemes/reference.dart';

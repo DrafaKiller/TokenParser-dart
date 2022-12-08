@@ -70,13 +70,12 @@ class Token<LexemeT extends Lexeme> extends Match {
   /// 
   /// This is useful when you want to create a token that doesn't match anything,
   /// but still is not wrong, like for optional lexemes.
-  factory Token.emptyAt(LexemeT pattern, String string, int start) => Token(pattern, string, start, start);
+  factory Token.emptyAt(LexemeT pattern, String string, int start) =>
+    Token(pattern, string, start, start);
   
   /// Throw a **LexicalSyntaxError** for a token that doesn't match.
-  factory Token.mismatch(LexemeT pattern, String string, int start) {
-    Token.emptyAt(pattern, string, start);
+  factory Token.mismatch(LexemeT pattern, String string, int start) =>
     throw LexicalSyntaxError(pattern, string, start);
-  }
 
   /* -= Match Methods =- */
 

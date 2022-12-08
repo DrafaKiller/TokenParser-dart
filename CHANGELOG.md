@@ -1,3 +1,15 @@
+## 1.2.0
+
+Added:
+- New `spacing` top-level lexeme, matches any conventional spacing, multiple space
+- Lazy lexeme extension modifiers, `pattern.plus`, `pattern.star` and `pattern.question`. They do what you're expecting from a regex expression, and can be easier for translation and lazy debugging, but it's not 
+recommended to use them because they are harder to read
+- Lexeme extension `iterable.and` and `iterable.or`, transform a list of patterns into an and/or lexeme
+- Lexeme extension `iterable.spaced` and `iterable.optionalSpaced`, transform a list of lexemes into an and lexeme with spaces in between, optionally
+
+Changed:
+- `spacing` moved to `space`, single space
+
 ## 1.1.0
 
 TODO:
@@ -10,7 +22,7 @@ Added:
 - `startLine`, `endLine` top-level lexemes, matches the start and end of the line
 
 Fixed:
-- Lexeme's Regex string, it was using `'$pattern'` within itself instead of `'${ pattern.regexString }'`
+- Lexeme's Regex string, was using `'$pattern'` within itself instead of `'${ pattern.regexString }'`
 
 Changed:
 - Shorter error messages, to be less descriptive
@@ -18,8 +30,9 @@ Changed:
 ## 1.0.0
 
 **BREAKING CHANGES:**
-- Token Parser was refactored to be able to throw lexical syntax errors, using `LexicalSyntaxError`. This change means that tokenization is mandatory to return a token. If there's no match, it will throw an error suggesting where it went wrong. If you with to have optional tokenization, use the `grammar.optionalParse()` and `lexeme.optionalTokenize()` methods instead.
+- Token Parser was refactored to be able to throw lexical syntax errors, using `LexicalSyntaxError`. This change means that tokenization is mandatory to return a token. If there's no match, it will throw an error suggesting where it went wrong. If you must have optional tokenization, use the `grammar.optionalParse()` and `lexeme.optionalTokenize()` methods instead.
 - Every lexeme type was reworked, so they might have different behavior than before.
+- Grammar debugging is available, instantiating grammar using the `DebugGrammar` class. It will show you the tokenization process, and the path it took to get to the token. It's recommended to use it when you're debugging your grammar, and remove it when you're done.
 
 Added:
 - Tokenization error `LexicalSyntaxError`, is thrown when a token is not matched

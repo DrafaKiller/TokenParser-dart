@@ -1,4 +1,4 @@
-import 'package:token_parser/src/internal/extension.dart';
+import 'package:token_parser/src/extensions/pattern.dart';
 import 'package:token_parser/src/lexeme.dart';
 
 abstract class ParentLexeme extends Lexeme {

@@ -3,10 +3,7 @@ import 'package:token_parser/src/extension.dart';
 import 'package:token_parser/src/lexeme.dart';
 import 'package:token_parser/src/token.dart';
 
-export 'package:token_parser/src/extension.dart';
-export 'package:token_parser/src/debug.dart';
-
-extension LexicalAnalysisPatternInternal on Pattern {
+extension LexicalAnalysisTokenize on Pattern {
   /* -= Tokenization =- */
 
   Token tokenizeFrom(Lexeme lexeme, String string, [ int start = 0 ]) {
