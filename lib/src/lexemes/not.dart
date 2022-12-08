@@ -14,5 +14,5 @@ class NotLexeme extends PatternLexeme {
     return Token.emptyAt(this, string, start);
   }
 
-  @override String get regexString => '(?!$pattern)';
+  @override String get regexString => '(?!${ pattern.lexeme().regexString })';
 }

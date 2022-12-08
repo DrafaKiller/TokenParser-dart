@@ -16,5 +16,5 @@ class FullLexeme extends PatternLexeme {
     return Token.match(this, token);
   }
 
-  @override String get regexString => '^$pattern\$';
+  @override String get regexString => '^${ pattern.lexeme().regexString }\$';
 }

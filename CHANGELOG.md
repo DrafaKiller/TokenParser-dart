@@ -1,5 +1,17 @@
 ## 1.1.0
 
+TODO:
+
+Added:
+- `anyUntil(pattern)` top-level lexeme, matches any character until the pattern is matched
+- `pattern.until(pattern)` lexeme extension, matches the pattern until the pattern is matched
+- `pattern.repeat(min, [ max ])` lexeme extension, matches the pattern between `min` and `max` times
+- `start`, `end` top-level lexemes, matches the start and end of the input
+- `startLine`, `endLine` top-level lexemes, matches the start and end of the line
+
+Fixed:
+- Lexeme's Regex string, it was using `'$pattern'` within itself instead of `'${ pattern.regexString }'`
+
 Changed:
 - Shorter error messages, to be less descriptive
 

@@ -109,6 +109,8 @@ Lexeme modification methods available:
   - `.regex`
   - `.character`
   - `.spaced`
+  - `.repeat(int min, [int max])`
+  - `.until(Pattern pattern)`
 
 ```dart
 final digit = '[0-9]'.regex;
@@ -392,8 +394,8 @@ LexicalSyntaxError: Unexpected character "/"
       var bar = 123.456;
     ''');
 
-    final numbers = result.get(lexeme: number).map((match) => match.group(0));
-    final identifiers = result.get(lexeme: identifier).map((match) => '"${ match.group(0) }"');
+    final numbers = result.get(lexeme: number).map((token) => token.value);
+    final identifiers = result.get(lexeme: identifier).map((token) => '"${ token.value }"');
 
     print('Numbers: $numbers');
     print('Identifiers: $identifiers');

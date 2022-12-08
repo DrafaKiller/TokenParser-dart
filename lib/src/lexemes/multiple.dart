@@ -18,5 +18,5 @@ class MultipleLexeme extends PatternLexeme {
   }
 
   @override String get regexString => 
-    '(?:$pattern)${ parent is OptionalLexeme ? '*' : '+' }';
+    '(?:${ pattern.lexeme().regexString })${ parent is OptionalLexeme ? '*' : '+' }';
 }

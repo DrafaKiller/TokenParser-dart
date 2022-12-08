@@ -85,11 +85,20 @@ extension LexicalAnalysisPattern on Pattern {
   /// as this will destroy any other lexemes defined within the pattern.
   Lexeme get regex => Lexeme.regex(toString());
 
-  Lexeme get asBefore => Lexeme.regex('(?<=$this)');
-  Lexeme get asNotBefore => Lexeme.regex('(?<!$this)');
+  /// Match the current pattern until another pattern is matched.
+  Lexeme until(Pattern pattern) => Lexeme.until(this, pattern);
+
+  /// Repeat the current pattern a specific number of times.
+  /// A maximum number of times can also be provided.
+  /// 
+  /// Equivalent to `this{min,max}`.
+  Lexeme repeat(int min, [ int? max ]) => Lexeme.repeat(this, min, max: max);
+
+  Lexeme get asBefore => Lexeme.regex('(?<=${ lexeme().regexString })');
+  Lexeme get asNotBefore => Lexeme.regex('(?<!${ lexeme().regexString })');
   
-  Lexeme get asAfter => Lexeme.regex('(?=$this)');
-  Lexeme get asNotAfter => Lexeme.regex('(?!$this)');
+  Lexeme get asAfter => Lexeme.regex('(?=${ lexeme().regexString })');
+  Lexeme get asNotAfter => Lexeme.regex('(?!${ lexeme().regexString })');
 }
 
 /* -= Top-level Referencing =- */
@@ -123,8 +132,34 @@ Lexeme any({ Pattern? not }) {
   return Lexeme.any();
 }
 
+/// Matches any character until a pattern is matched.
+/// This lexeme is optional.
+Lexeme anyUntil(Pattern pattern) => any().until(pattern).optional;
+
+/* -= Top-level Lexemes - Spacing =- */
+
 final whitespace = ' ' | '\t';
 final newLine = '\n' | '\r' | '\f';
 
+/// **Top-level Lexeme:**<br>
 /// Matches a space character.
 final spacing = whitespace | newLine;
+
+/* -= Top-level Lexemes - Start & End =- */
+
+
+/// **Top-level Lexeme:**<br>
+/// Ensures the start of the input is matched.
+final start = Lexeme.start();
+
+/// **Top-level Lexeme:**<br>
+/// Ensures the end of the input is matched.
+final end = Lexeme.end();
+
+/// **Top-level Lexeme:**<br>
+/// Ensures the start of a line is matched, before.
+final startLine = newLine.asBefore;
+
+/// **Top-level Lexeme:**<br>
+/// Ensures the end of a line is matched, after.
+final endLine = newLine.asAfter;

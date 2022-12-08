@@ -22,7 +22,7 @@ class OrLexeme extends ParentLexeme {
   String get regexString => children.isNotEmpty
     ? children.length == 1
       ? children.first.toString()
-      : '(?:${ children.join('|') })'
+      : '(?:${ children.map((token) => token.regexString).join('|') })'
     : '';
 }
 

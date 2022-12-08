@@ -14,5 +14,5 @@ class OptionalLexeme extends PatternLexeme {
     return Token.match(this, token);
   }
 
-  @override get regexString => '(?:$pattern)?';
+  @override get regexString => '(?:${ pattern.lexeme().regexString })?';
 }

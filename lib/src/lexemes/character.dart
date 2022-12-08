@@ -18,5 +18,5 @@ class CharacterLexeme extends PatternLexeme {
     return Token(this, string, start, start + 1);
   }
 
-  @override String get regexString => '(?=$pattern).';
+  @override String get regexString => '(?=${ pattern.lexeme().regexString }).';
 }
