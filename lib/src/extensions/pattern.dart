@@ -47,8 +47,8 @@ extension LexicalAnalysisPattern on Pattern {
   /// Add spacing around the current pattern.
   /// The spacing is multiple and optional.
   /// 
-  /// Equivalent to `this.spaced`.
-  Lexeme operator ~() => spaced;
+  /// Equivalent to `this.optionalSpaced`.
+  Lexeme operator ~() => optionalSpaced;
 
   /* -= Lexeme Modification =- */
 
@@ -102,10 +102,18 @@ extension LexicalAnalysisPattern on Pattern {
   /// **Lexical Modifier** - Spaced
   /// 
   /// Adds spacing to the surrounding of the current pattern.
+  /// The spacing is multiple.
+  /// 
+  /// Equivalent to `this.pad(spacing)`.
+  Lexeme get spaced => pad(spacing);
+  
+  /// **Lexical Modifier** - Optional spaced
+  /// 
+  /// Adds spacing to the surrounding of the current pattern.
   /// The spacing is multiple and optional.
   /// 
-  /// Equivalent to `this.gap(spacing)`.
-  Lexeme get spaced => pad(spacing);
+  /// Equivalent to `this.pad(spacing.optional)`.
+  Lexeme get optionalSpaced => pad(spacing.optional);
   
   /// **Lexical Modifier** - Regex
   /// 
@@ -124,10 +132,10 @@ extension LexicalAnalysisPattern on Pattern {
   /* -= Lexeme Modification - Methods =- */
 
   /// Surrounds the current pattern with another pattern.
-  /// The pattern is multiple and optional.
+  /// The pattern is multiple.
   /// 
-  /// Equivalent to `pattern*-this-pattern*`.
-  Lexeme pad(Pattern pattern) => Lexeme.andAll([ pattern.multiple.optional, this, pattern.multiple.optional ]);
+  /// Equivalent to `pattern-this-pattern`.
+  Lexeme pad(Pattern pattern) => Lexeme.andAll([ pattern.multiple, this, pattern.multiple ]);
 
   /// Match the current pattern until another pattern is matched.
   Lexeme until(Pattern pattern) => Lexeme.until(this, pattern);
