@@ -1,3 +1,11 @@
+## 1.5.2
+
+Changed:
+- Lexeme modifier `.pad()` is not multiple anymore, it was impossible to make it optional
+
+Fixed:
+- Lexeme operator `~` was not working properly, `.optional.multiple` is impossible as multiple requires at least one match
+
 ## 1.5.1
 
 Fixed:

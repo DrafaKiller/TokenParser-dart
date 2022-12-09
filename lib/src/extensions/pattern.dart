@@ -132,10 +132,9 @@ extension LexicalAnalysisPattern on Pattern {
   /* -= Lexeme Modification - Methods =- */
 
   /// Surrounds the current pattern with another pattern.
-  /// The pattern is multiple.
   /// 
   /// Equivalent to `pattern-this-pattern`.
-  Lexeme pad(Pattern pattern) => Lexeme.andAll([ pattern.multiple, this, pattern.multiple ]);
+  Lexeme pad(Pattern pattern) => Lexeme.andAll([ pattern, this, pattern ]);
 
   /// Match the current pattern until another pattern is matched.
   Lexeme until(Pattern pattern) => Lexeme.until(this, pattern);
