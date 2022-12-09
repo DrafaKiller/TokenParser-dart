@@ -100,8 +100,10 @@ Lexeme modification methods available:
   - `.regex`
   - `.character`
   - `.spaced`
+  - `.optionalSpaced`
   - `.repeat(int min, [int max])`
   - `.until(Pattern pattern)`
+  - `.pad(Pattern pattern)`
 
 ```dart
 final digit = '[0-9]'.regex;
