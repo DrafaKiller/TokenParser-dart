@@ -1,3 +1,8 @@
+## 1.5.1
+
+Fixed:
+- Infinite loop when combining `.optional.multiple` lexeme modifiers, instead of `.multiple.optional`. Multiple lexeme modifier now skips if the pattern did not consume any characters
+
 ## 1.5.0
 
 Changed:

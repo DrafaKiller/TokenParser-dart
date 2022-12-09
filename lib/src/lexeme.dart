@@ -78,7 +78,8 @@ abstract class Lexeme extends Pattern {
     final tokens = <Token>{};
     Token? token;
     while ((token = optionalTokenize(string, start)) != null) {
-      tokens.add(token!);
+      if (token!.length == 0) break;
+      tokens.add(token);
       start = token.end;
     }
     return tokens;
