@@ -129,14 +129,14 @@ Modifying operators must be placed before the target pattern.
 
 The available operators are:
 
-Operator  | Description             | Action
---------- | ----------------------- | -------
-`&` / `+` | And                     | Combine
-`\|`      | Or                      | Combine
-`>`       | And, spaced             | Combine
-`>=`      | And, spaced, optional   | Combine
-`-`       | Not                     | Modify
-`~`       | Spaced around, optional | Modify
+Operator   | Description             | Action
+---------- | ----------------------- | -------
+`&` / `+`  | And                     | Combine
+`\|`       | Or                      | Combine
+`>` / `>>` | And, spaced             | Combine
+`>=` / `*` | And, spaced, optional   | Combine
+`-`        | Not                     | Modify
+`~`        | Spaced around, optional | Modify
 
 ### Negative Lexemes
 

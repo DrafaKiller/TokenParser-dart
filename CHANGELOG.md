@@ -1,3 +1,8 @@
+## 1.3.1
+
+Fixed:
+- Multiple `>` and `>=` would prompt an error: "A comparison expression can't be an operand of another comparison expression.". Added `>>` and `*` to fix this issue, respectively.
+
 ## 1.3.0
 
 Added:

@@ -1,6 +1,6 @@
 name: token_parser
 description: An intuitive Token Parser that includes grammar definition, tokenization, parsing, syntax error and debugging. Implementation based on Lexical Analysis for Dart.
-version: 1.3.0
+version: 1.3.1
 repository: https://github.com/DrafaKiller/TokenParser-dart
 issue_tracker: https://github.com/DrafaKiller/TokenParser-dart/issues
 
