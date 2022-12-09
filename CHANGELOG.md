@@ -1,3 +1,18 @@
+## 1.4.0
+
+**BREAKING CHANGES:**
+- Added, changed and removed a few lexeme operators, to simplify the API and make it more consistent.
+
+Added:
+- Lexeme operator `*` to combine 2 lexemes with a space in between, multiple and optional
+
+Changed:
+- Lexeme operator `+` to combine 2 lexemes with a space in between, multiple 
+
+Remove:
+- Lexeme operators `>` and `>=`, are more probable to cause errors than to be useful, due to how Dart handles them
+- Lexeme operator `>>`, does the same thing as `+`
+
 ## 1.3.1
 
 Fixed:
