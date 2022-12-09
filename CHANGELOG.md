@@ -1,3 +1,9 @@
+## 1.3.0
+
+Added:
+- Lexeme operator extension `>` and `>=`, add spacing in between, and optionally
+- Shield.io badges to README.md
+
 ## 1.2.0
 
 Added:

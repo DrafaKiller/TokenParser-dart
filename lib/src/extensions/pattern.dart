@@ -31,6 +31,18 @@ extension LexicalAnalysisPattern on Pattern {
   /// Equivalent to `this.spaced`.
   Lexeme operator ~() => spaced;
 
+  /// Lexical operator to add spacing in between the current pattern and the next pattern.
+  /// The spacing is multiple.
+  /// 
+  /// Equivalent to `this & spacing.multiple & pattern`.
+  Lexeme operator >(Pattern other) => Lexeme.andAll([ this, spacing.multiple, other ]);
+
+  /// Lexical operator to add spacing in between the current pattern and the next pattern.
+  /// The spacing is multiple and optional.
+  /// 
+  /// Equivalent to `this & spacing.multiple.optional & pattern`.
+  Lexeme operator >=(Pattern other) => Lexeme.andAll([ this, spacing.multiple.optional, other ]);
+
   /* -= Lexeme Modification =- */
 
   /// Allows the current pattern to be matched multiple times.
