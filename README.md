@@ -1,7 +1,5 @@
-<!--
 [![Pub.dev package](https://img.shields.io/badge/pub.dev-token__parser-blue)](https://pub.dev/packages/token_parser)
 [![GitHub repository](https://img.shields.io/badge/GitHub-TokenParser--dart-blue?logo=github)](https://github.com/DrafaKiller/TokenParser-dart)
--->
 
 # Token Parser
 
