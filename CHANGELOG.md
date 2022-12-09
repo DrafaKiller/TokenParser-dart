@@ -4,6 +4,9 @@ Changed:
 - Lexeme modifier `pattern.pad()` is now not optional, to have an optional pattern do `pattern.optional` before passing in
 - Lexeme modifier `pattern.spaced` is now not optional, it wouldn't be called spaced otherwise. To have optional spacing, use `pattern.optionalSpaced`
 
+Fixed:
+- Debugging tokenization, no character error
+
 ## 1.4.0
 
 **BREAKING CHANGES:**

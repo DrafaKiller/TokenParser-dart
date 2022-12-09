@@ -42,7 +42,7 @@ class DebugGrammar extends Grammar {
   void tokenizing(Lexeme lexeme, String string, [ int start = 0 ]) {
     if (!showAll && lexeme.name == null) return;
 
-    String character = string[start];
+    String? character = start < string.length ? string[start] : null;
     if (character == '\n') character = r'\n';
     if (character == '\r') character = r'\r';  
     if (character == '\t') character = r'\t';
@@ -73,7 +73,7 @@ class DebugGrammar extends Grammar {
       (debugIndex == 0 ? '┬► ' : '├► ') + 
       [
         'Tokenizing ${ lexeme.name != null ? 'named ${ lexeme.name }' : lexeme.displayName }',
-        'at index $start${ start < string.length ? ', character "$character"' : '' }',
+        'at index $start${ character != null ? ', character "$character"' : '' }',
         if (showPath) 'on path: ${
           filteredPath
             .map((line) => line.join(' → '))
