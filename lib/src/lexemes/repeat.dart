@@ -23,5 +23,5 @@ class RepeatLexeme extends PatternLexeme {
     return Token.matches(this, tokens);
   }
 
-  @override String get regexString => '(?:${ pattern.lexeme().regexString }){$min,${ max ?? '' }}';
+  @override String get regexString => '(?:${ pattern.lexeme().regexString }){$min${ max != null ? ',$max' : '' }}';
 }

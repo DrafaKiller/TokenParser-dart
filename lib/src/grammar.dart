@@ -1,6 +1,7 @@
 import 'package:token_parser/src/error.dart';
 import 'package:token_parser/src/extension.dart';
 import 'package:token_parser/src/lexeme.dart';
+import 'package:token_parser/src/lexemes/global.dart';
 import 'package:token_parser/src/lexemes/main.dart';
 import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/token.dart';
@@ -44,9 +45,14 @@ class Grammar {
   /// grammar.add('digit', digit);
   /// grammar.add( ... );
   /// ```
-  Grammar({ Map<String, Pattern>? rules, Lexeme? main }) {
+  Grammar({
+    Pattern? main,
+    Pattern? remove,
+    Map<String, Pattern>? rules
+  }) {
+    if (remove != null) addRemover(remove.lexeme());
     if (rules != null) addAll(rules);
-    if (main != null) this.main = main;
+    if (main != null) this.main = main.lexeme();
   }
 
   /// Parses the provided input and returns the resulting token.
@@ -54,9 +60,13 @@ class Grammar {
   /// 
   /// The main lexeme is used to tokenize the input, this can be changed by
   /// setting the `main` argument.
-  Token parse(String input, [ Lexeme? main ]) {
+  Token parse(String string, [ Lexeme? main ]) {
     main ??= this.main ?? (throw MissingMainLexemeError());
-    return main.tokenize(input);
+
+    final remove = remover;
+    if (remove != null) string = string.replaceAll(GlobalLexeme(remove), '');
+    
+    return main.tokenize(string);
   }
 
   /// Parses the provided input and returns the resulting token.
@@ -72,6 +82,8 @@ class Grammar {
     }
   }
 
+  /* -= Main Lexeme =- */
+
   /// The main lexeme is the lexeme that will be used to tokenize the input
   /// when parsing.
   Lexeme? get main => lexeme('(main)');
@@ -79,15 +91,26 @@ class Grammar {
     if (lexeme != null) addMain(lexeme);
   }
 
-
   /// Sets the main lexeme of the grammar.
   void addMain(Lexeme lexeme) => addLexemes([ lexeme, MainLexeme(lexeme) ]);
+
+  /* -= Remover Lexeme =- */
+
+  /// The remove lexeme is the lexeme that will be used to remove a pattern from the input
+  /// when parsing.
+  Lexeme? get remover => lexeme('(remover)');
+  set remover(Lexeme? lexeme) {
+    if (lexeme != null) addRemover(lexeme);
+  }
+
+  /// Sets the remover lexeme of the grammar.
+  void addRemover(Lexeme lexeme) => add('(remover)', lexeme);
 
   /* -= Lexeme Management =- */
 
   /// Get a previously binded lexeme by its name, from the grammar.
-  Lexeme? lexeme(String name) =>
-    rules.firstWhereOrNull((token) => token.name == name);
+  LexemeT? lexeme<LexemeT extends Lexeme>(String name) =>
+    rules.whereType<LexemeT>().firstWhereOrNull((token) => token.name == name);
 
   /// Add a lexeme to the grammar.
   /// This will bind the lexeme to the grammar, so it can be referenced.

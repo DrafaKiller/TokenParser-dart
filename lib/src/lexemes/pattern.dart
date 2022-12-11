@@ -19,6 +19,8 @@ class PatternLexeme<PatternT extends Pattern> extends ParentLexeme {
     return Token.match(this, token);
   }
 
+  /* -= Identification =- */
+
   @override
   String get regexString => 
     pattern is RegExp
@@ -26,4 +28,15 @@ class PatternLexeme<PatternT extends Pattern> extends ParentLexeme {
     : pattern is String
       ? RegExp.escape(pattern as String)
     : pattern.toString();
+
+  /* -= Compararison =- */
+
+  @override
+  bool operator ==(Object other) => 
+    other is PatternLexeme &&
+    other.name == name &&
+    other.pattern == pattern;
+
+  @override
+  int get hashCode => Object.hash(name, pattern);
 }

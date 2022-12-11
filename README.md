@@ -236,9 +236,15 @@ When parsing an input, it will return a resulting token,
 which can be used to get the value and position of the lexemes that matched.
 It can also be used to get the children tokens.
 
+### Removing unwanted patterns
+
+When parsing an input, the grammar may not care about some lexemes, such as comments.
+To remove these patterns you can use the `remove` parameter in the constructor, or
+the `.addRemover(Lexeme lexeme)` method.
+
 ## Token
 
-A token is the result of matching a lexeme to an input.
+A token is a result of matching a lexeme to an input.
 It contains the value of the lexeme that matched and the position of the token.
 
 The process of generating this token is called **tokenization**.
@@ -262,14 +268,12 @@ print('''
 When tokenizing, if the input doesn't match any lexeme,
 it will throw a `LexicalSyntaxError` error.
 
-This error displays the position of the error,
-and the lexemes that were expected to match the input.
-Additionally, it will display the list of the lexemes that were
-traversed, as the path to the error.
+This error displays the position of the error and the lexemes that were expected to match the input.
+Additionally, it will display the list of the lexemes that were traversed, as the path to the error.
 
 This error will skip any lexeme that is not named.
 
-### Analysing the Token Tree
+### Analyzing the Token Tree
 
 You may use this token to analyze the resulting tree. Using the `.get({ Lexeme? lexeme, String? name })` method will get all the tokens that match the lexeme or name.
 

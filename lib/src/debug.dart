@@ -27,13 +27,14 @@ class DebugGrammar extends Grammar {
     this.delay = Duration.zero,
 
     super.main,
+    super.remove,
     super.rules,
   });
 
   @override
-  Token<Lexeme> parse(String input, [Lexeme? main]) {
+  Token<Lexeme> parse(String string, [Lexeme? main]) {
     final timer = Stopwatch()..start();
-    final result = super.parse(input, main);
+    final result = super.parse(string, main);
     timer.stop();
     print('\n> Debugging Grammar parsed the input in ${ timer.elapsedMilliseconds } ms.\n');
     return result;

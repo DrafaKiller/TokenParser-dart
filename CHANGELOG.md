@@ -1,3 +1,12 @@
+## 1.6.0
+
+Added:
+- GlobalLexeme matches the target pattern on any part of the input. 
+- Grammar `(remover)` rule, removes the target pattern from the input. Useful for removing comments before tokenizing.
+
+Fixed:
+- PatternLexeme's equality operator was not comparing simple patterns correctly.
+
 ## 1.5.2
 
 Changed:

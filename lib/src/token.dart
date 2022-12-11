@@ -29,7 +29,7 @@ class Token<LexemeT extends Lexeme> extends Match {
   /// Represents a match of a lexeme against the input, with the context of the lexeme.
   /// Such as, the input, the start and end positions, and the lexeme that generated the token.
   ///
-  /// ### Analysing the Token Tree
+  /// ### Analyzing the Token Tree
   /// 
   /// You may use the parsed token to analyze the resulting tree,
   /// using the .get({ Lexeme? lexeme, String? name }) method will get all the tokens that match the lexeme or name.
