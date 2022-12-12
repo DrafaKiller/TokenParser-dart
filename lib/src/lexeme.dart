@@ -21,6 +21,7 @@ import 'package:token_parser/src/lexemes/end.dart';
 import 'package:token_parser/src/lexemes/character.dart';
 import 'package:token_parser/src/lexemes/until.dart';
 import 'package:token_parser/src/lexemes/repeat.dart';
+import 'package:token_parser/src/lexemes/global.dart';
 
 import 'package:token_parser/src/lexemes/reference.dart';
 import 'package:token_parser/src/lexemes/self.dart';
@@ -196,7 +197,7 @@ abstract class Lexeme extends Pattern {
   factory Lexeme.until(Pattern pattern, Pattern until, { String? name }) = UntilLexeme;
   
   factory Lexeme.repeat(Pattern pattern, int min, { int? max, String? name }) = RepeatLexeme;
-  factory Lexeme.global(Pattern pattern) => (pattern | any()).multiple;
+  factory Lexeme.global(Pattern pattern, { String? name }) = GlobalLexeme;
 
   factory Lexeme.reference(String name, { Grammar? grammar }) = ReferenceLexeme;
   factory Lexeme.ref(String name, { Grammar? grammar }) = ReferenceLexeme;
