@@ -11,7 +11,7 @@ final identifier = letter & (letter | digit).multiple.optional;
 
 final number = digit.multiple & ('.' & digit.multiple).optional;
 final string = '"' & '[^"]*'.regex & '"'
-              | "'" & "[^']*".regex & "'";
+             | "'" & "[^']*".regex & "'";
 
 final variableDeclaration =
   'var' & space & identifier & space.optional & '=' & space.optional & (number | string) & space.optional & (';' | space);

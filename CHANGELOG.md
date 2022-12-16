@@ -1,3 +1,11 @@
+## 1.7.0
+
+Added:
+- Lexeme extension `lexeme.copy()`, creates a copy of the lexeme, with the same properties.
+This is useful to avoid having duplicate lexeme variable references.
+- Top-level range regex pattern, `range(a, b)` matches any number or character between `a` and `b`.
+- Example of a simple RGB Color Parser, using the `range` pattern.
+
 ## 1.6.0
 
 Added:
