@@ -31,4 +31,4 @@ final red = rgbNumber.copy();
 final green = rgbNumber.copy();
 final blue = rgbNumber.copy();
 
-final rgb = 'rgb('.lexeme() * red * ',' * green * ',' * blue * ')';
+final rgb = [ 'rgb(', red, ',', green, ',', blue, ')' ].optionalSpaced;
